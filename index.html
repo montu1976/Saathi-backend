@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Saathi AI</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f7fb;
+      padding: 20px;
+    }
+
+    .chat-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    #chat {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .user {
+      color: #1a73e8;
+      margin-bottom: 10px;
+    }
+
+    .ai {
+      color: #444;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 75%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #1a73e8;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #125ecb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="chat-container">
+    <h2>Saathi AI</h2>
+
+    <div id="chat"></div>
+
+    <input id="input" placeholder="Share what's on your mind..." />
+    <button onclick="send()">Send</button>
+  </div>
+
+  <script>
+    window.send = async function () {
+
+      const input = document.getElementById("input");
+      const message = input.value;
+
+      if (!message) return;
+
+      const chat = document.getElementById("chat");
+
+      chat.innerHTML += `
+        <div class="user">
+          <b>You:</b> ${message}
+        </div>
+      `;
+
+      input.value = "";
+
+      try {
+
+        const res = await fetch("http://127.0.0.1:3000/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+
+        chat.innerHTML += `
+          <div class="ai">
+            <b>Saathi:</b> ${data.reply}
+          </div>
+        `;
+
+        chat.scrollTop = chat.scrollHeight;
+
+      } catch (err) {
+
+        console.error(err);
+
+        chat.innerHTML += `
+          <div class="ai">
+            ⚠️ Connection error
+          </div>
+        `;
+      }
+    };
+  </script>
+
+</body>
+</html>
