@@ -1,0 +1,70 @@
+{
+  "relationships": [
+    "Dating", "Communication", "Trust", "Jealousy", "Boundaries", "Compatibility",
+    "Emotional needs", "Breakups", "Reconciliation", "Long distance", "Love marriage",
+    "Inter-caste relationships", "Inter-faith relationships", "Commitment", "Cheating",
+    "Phone privacy", "Financial disagreements", "Social media conflicts", "Moving in together",
+    "Second marriage"
+  ],
+  "family": [
+    "Parents", "Mother", "Father", "Siblings", "Joint family", "Nuclear family",
+    "Mother-in-law", "Father-in-law", "Daughter-in-law", "Son-in-law",
+    "Parent expectations", "Marriage pressure", "Career pressure", "Property disputes",
+    "Inheritance", "Financial dependence", "Elder care", "Parent-child communication",
+    "Generational gap", "Respect and boundaries"
+  ],
+  "career": [
+    "Career choice", "Engineering", "Medicine", "UPSC", "Government jobs", "Private jobs",
+    "Startup", "MBA", "Study abroad", "Career switch", "Promotion", "Salary negotiation",
+    "Interview", "Job loss", "Burnout", "Leadership", "Office politics", "Remote work",
+    "Freelancing", "Retirement planning"
+  ],
+  "education": [
+    "School stress", "Board exams", "NEET", "JEE", "UPSC preparation", "Study habits",
+    "Concentration", "Time management", "Career confusion", "Choosing college",
+    "Scholarships", "Studying abroad", "Exam failure", "Fear of failure",
+    "Parents' expectations", "Teacher relationships", "Bullying", "Hostel life", "Gap year",
+    "Learning disabilities awareness"
+  ],
+  "friendship": [
+    "Making friends", "Losing friends", "Toxic friendships", "Best friends", "Jealousy",
+    "Competition", "Peer pressure", "Group exclusion", "Trust", "Conflict resolution",
+    "Apologizing", "Forgiveness", "Long-distance friendships", "Online friendships",
+    "Helping friends", "Setting boundaries", "Choosing friends", "Work friendships",
+    "College friendships", "Neighbour relationships"
+  ],
+  "marriage": [
+    "Arranged marriage", "Love marriage", "Interfaith marriage", "Intercaste marriage",
+    "Wedding planning stress", "Living with in-laws", "Financial planning", "Communication",
+    "Conflict resolution", "Intimacy", "Having children", "Infertility discussions",
+    "Parenting expectations", "Division of responsibilities", "Career after marriage",
+    "Moving cities", "Divorce", "Separation", "Second marriage", "Widowhood"
+  ],
+  "mental-wellbeing": [
+    "Stress", "Anxiety", "Loneliness", "Low confidence", "Overthinking", "Grief", "Failure",
+    "Motivation", "Decision making", "Perfectionism", "Self esteem", "Work stress",
+    "Relationship stress", "Academic stress", "Anger management", "Emotional regulation",
+    "Building resilience", "Mindfulness", "Sleep habits", "Digital overload"
+  ],
+  "money": [
+    "Saving", "Budgeting", "Debt", "Loans", "Credit cards", "Buying a home", "Renting",
+    "Investing basics", "Emergency fund", "Supporting parents", "Financial independence",
+    "Wedding expenses", "Education loans", "Business finance", "Salary planning",
+    "Insurance basics", "Retirement savings", "Children's education", "Joint finances",
+    "Talking about money"
+  ],
+  "health": [
+    "Healthy eating", "Exercise", "Sleep", "Work-life balance", "Chronic illness support",
+    "Supporting a sick family member", "Preventive health", "Women's health awareness",
+    "Men's health awareness", "Ageing", "Stress management", "Digital wellness",
+    "Substance use awareness", "Medical checkups", "Healthy routines", "Travel health",
+    "Postpartum wellbeing", "Caregiver stress", "Nutrition", "Hydration"
+  ],
+  "self-growth": [
+    "Confidence", "Discipline", "Habits", "Goal setting", "Productivity",
+    "Communication skills", "Public speaking", "Decision making", "Leadership",
+    "Emotional intelligence", "Time management", "Purpose", "Resilience", "Self awareness",
+    "Learning mindset", "Forgiveness", "Patience", "Creativity", "Handling criticism",
+    "Building consistency"
+  ]
+}

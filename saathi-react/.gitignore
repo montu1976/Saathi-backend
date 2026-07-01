@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env.mobile
+
+# Capacitor native build artifacts (optional — many teams commit android/ios)
+# android/
+# ios/
 
 # Editor directories and files
 .vscode/*

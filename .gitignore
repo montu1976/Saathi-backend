@@ -1,2 +1,10 @@
 node_modules
 .env
+.env.*
+!.env.example
+!saathi-react/.env.example
+!saathi-react/.env.mobile.example
+data/
+saathi-react/dist/
+saathi-pro/dist/
+*.local

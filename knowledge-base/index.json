@@ -1,0 +1,1206 @@
+{
+  "generatedAt": "2026-07-01T09:00:27.242Z",
+  "count": 200,
+  "topics": [
+    {
+      "category": "relationships",
+      "topic": "Dating",
+      "file": "relationships/dating.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Communication",
+      "file": "relationships/communication.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Trust",
+      "file": "relationships/trust.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Jealousy",
+      "file": "relationships/jealousy.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Boundaries",
+      "file": "relationships/boundaries.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Compatibility",
+      "file": "relationships/compatibility.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Emotional needs",
+      "file": "relationships/emotional-needs.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Breakups",
+      "file": "relationships/breakups.md",
+      "enriched": true
+    },
+    {
+      "category": "relationships",
+      "topic": "Reconciliation",
+      "file": "relationships/reconciliation.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Long distance",
+      "file": "relationships/long-distance.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Love marriage",
+      "file": "relationships/love-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Inter-caste relationships",
+      "file": "relationships/inter-caste-relationships.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Inter-faith relationships",
+      "file": "relationships/inter-faith-relationships.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Commitment",
+      "file": "relationships/commitment.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Cheating",
+      "file": "relationships/cheating.md",
+      "enriched": true
+    },
+    {
+      "category": "relationships",
+      "topic": "Phone privacy",
+      "file": "relationships/phone-privacy.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Financial disagreements",
+      "file": "relationships/financial-disagreements.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Social media conflicts",
+      "file": "relationships/social-media-conflicts.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Moving in together",
+      "file": "relationships/moving-in-together.md",
+      "enriched": false
+    },
+    {
+      "category": "relationships",
+      "topic": "Second marriage",
+      "file": "relationships/second-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Parents",
+      "file": "family/parents.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Mother",
+      "file": "family/mother.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Father",
+      "file": "family/father.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Siblings",
+      "file": "family/siblings.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Joint family",
+      "file": "family/joint-family.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Nuclear family",
+      "file": "family/nuclear-family.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Mother-in-law",
+      "file": "family/mother-in-law.md",
+      "enriched": true
+    },
+    {
+      "category": "family",
+      "topic": "Father-in-law",
+      "file": "family/father-in-law.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Daughter-in-law",
+      "file": "family/daughter-in-law.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Son-in-law",
+      "file": "family/son-in-law.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Parent expectations",
+      "file": "family/parent-expectations.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Marriage pressure",
+      "file": "family/marriage-pressure.md",
+      "enriched": true
+    },
+    {
+      "category": "family",
+      "topic": "Career pressure",
+      "file": "family/career-pressure.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Property disputes",
+      "file": "family/property-disputes.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Inheritance",
+      "file": "family/inheritance.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Financial dependence",
+      "file": "family/financial-dependence.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Elder care",
+      "file": "family/elder-care.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Parent-child communication",
+      "file": "family/parent-child-communication.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Generational gap",
+      "file": "family/generational-gap.md",
+      "enriched": false
+    },
+    {
+      "category": "family",
+      "topic": "Respect and boundaries",
+      "file": "family/respect-and-boundaries.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Career choice",
+      "file": "career/career-choice.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Engineering",
+      "file": "career/engineering.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Medicine",
+      "file": "career/medicine.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "UPSC",
+      "file": "career/upsc.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Government jobs",
+      "file": "career/government-jobs.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Private jobs",
+      "file": "career/private-jobs.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Startup",
+      "file": "career/startup.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "MBA",
+      "file": "career/mba.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Study abroad",
+      "file": "career/study-abroad.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Career switch",
+      "file": "career/career-switch.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Promotion",
+      "file": "career/promotion.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Salary negotiation",
+      "file": "career/salary-negotiation.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Interview",
+      "file": "career/interview.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Job loss",
+      "file": "career/job-loss.md",
+      "enriched": true
+    },
+    {
+      "category": "career",
+      "topic": "Burnout",
+      "file": "career/burnout.md",
+      "enriched": true
+    },
+    {
+      "category": "career",
+      "topic": "Leadership",
+      "file": "career/leadership.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Office politics",
+      "file": "career/office-politics.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Remote work",
+      "file": "career/remote-work.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Freelancing",
+      "file": "career/freelancing.md",
+      "enriched": false
+    },
+    {
+      "category": "career",
+      "topic": "Retirement planning",
+      "file": "career/retirement-planning.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "School stress",
+      "file": "education/school-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Board exams",
+      "file": "education/board-exams.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "NEET",
+      "file": "education/neet.md",
+      "enriched": true
+    },
+    {
+      "category": "education",
+      "topic": "JEE",
+      "file": "education/jee.md",
+      "enriched": true
+    },
+    {
+      "category": "education",
+      "topic": "UPSC preparation",
+      "file": "education/upsc-preparation.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Study habits",
+      "file": "education/study-habits.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Concentration",
+      "file": "education/concentration.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Time management",
+      "file": "education/time-management.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Career confusion",
+      "file": "education/career-confusion.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Choosing college",
+      "file": "education/choosing-college.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Scholarships",
+      "file": "education/scholarships.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Studying abroad",
+      "file": "education/studying-abroad.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Exam failure",
+      "file": "education/exam-failure.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Fear of failure",
+      "file": "education/fear-of-failure.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Parents' expectations",
+      "file": "education/parents-expectations.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Teacher relationships",
+      "file": "education/teacher-relationships.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Bullying",
+      "file": "education/bullying.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Hostel life",
+      "file": "education/hostel-life.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Gap year",
+      "file": "education/gap-year.md",
+      "enriched": false
+    },
+    {
+      "category": "education",
+      "topic": "Learning disabilities awareness",
+      "file": "education/learning-disabilities-awareness.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Making friends",
+      "file": "friendship/making-friends.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Losing friends",
+      "file": "friendship/losing-friends.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Toxic friendships",
+      "file": "friendship/toxic-friendships.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Best friends",
+      "file": "friendship/best-friends.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Jealousy",
+      "file": "friendship/jealousy.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Competition",
+      "file": "friendship/competition.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Peer pressure",
+      "file": "friendship/peer-pressure.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Group exclusion",
+      "file": "friendship/group-exclusion.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Trust",
+      "file": "friendship/trust.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Conflict resolution",
+      "file": "friendship/conflict-resolution.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Apologizing",
+      "file": "friendship/apologizing.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Forgiveness",
+      "file": "friendship/forgiveness.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Long-distance friendships",
+      "file": "friendship/long-distance-friendships.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Online friendships",
+      "file": "friendship/online-friendships.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Helping friends",
+      "file": "friendship/helping-friends.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Setting boundaries",
+      "file": "friendship/setting-boundaries.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Choosing friends",
+      "file": "friendship/choosing-friends.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Work friendships",
+      "file": "friendship/work-friendships.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "College friendships",
+      "file": "friendship/college-friendships.md",
+      "enriched": false
+    },
+    {
+      "category": "friendship",
+      "topic": "Neighbour relationships",
+      "file": "friendship/neighbour-relationships.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Arranged marriage",
+      "file": "marriage/arranged-marriage.md",
+      "enriched": true
+    },
+    {
+      "category": "marriage",
+      "topic": "Love marriage",
+      "file": "marriage/love-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Interfaith marriage",
+      "file": "marriage/interfaith-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Intercaste marriage",
+      "file": "marriage/intercaste-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Wedding planning stress",
+      "file": "marriage/wedding-planning-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Living with in-laws",
+      "file": "marriage/living-with-in-laws.md",
+      "enriched": true
+    },
+    {
+      "category": "marriage",
+      "topic": "Financial planning",
+      "file": "marriage/financial-planning.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Communication",
+      "file": "marriage/communication.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Conflict resolution",
+      "file": "marriage/conflict-resolution.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Intimacy",
+      "file": "marriage/intimacy.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Having children",
+      "file": "marriage/having-children.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Infertility discussions",
+      "file": "marriage/infertility-discussions.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Parenting expectations",
+      "file": "marriage/parenting-expectations.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Division of responsibilities",
+      "file": "marriage/division-of-responsibilities.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Career after marriage",
+      "file": "marriage/career-after-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Moving cities",
+      "file": "marriage/moving-cities.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Divorce",
+      "file": "marriage/divorce.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Separation",
+      "file": "marriage/separation.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Second marriage",
+      "file": "marriage/second-marriage.md",
+      "enriched": false
+    },
+    {
+      "category": "marriage",
+      "topic": "Widowhood",
+      "file": "marriage/widowhood.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Stress",
+      "file": "mental-wellbeing/stress.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Anxiety",
+      "file": "mental-wellbeing/anxiety.md",
+      "enriched": true
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Loneliness",
+      "file": "mental-wellbeing/loneliness.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Low confidence",
+      "file": "mental-wellbeing/low-confidence.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Overthinking",
+      "file": "mental-wellbeing/overthinking.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Grief",
+      "file": "mental-wellbeing/grief.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Failure",
+      "file": "mental-wellbeing/failure.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Motivation",
+      "file": "mental-wellbeing/motivation.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Decision making",
+      "file": "mental-wellbeing/decision-making.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Perfectionism",
+      "file": "mental-wellbeing/perfectionism.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Self esteem",
+      "file": "mental-wellbeing/self-esteem.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Work stress",
+      "file": "mental-wellbeing/work-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Relationship stress",
+      "file": "mental-wellbeing/relationship-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Academic stress",
+      "file": "mental-wellbeing/academic-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Anger management",
+      "file": "mental-wellbeing/anger-management.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Emotional regulation",
+      "file": "mental-wellbeing/emotional-regulation.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Building resilience",
+      "file": "mental-wellbeing/building-resilience.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Mindfulness",
+      "file": "mental-wellbeing/mindfulness.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Sleep habits",
+      "file": "mental-wellbeing/sleep-habits.md",
+      "enriched": false
+    },
+    {
+      "category": "mental-wellbeing",
+      "topic": "Digital overload",
+      "file": "mental-wellbeing/digital-overload.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Saving",
+      "file": "money/saving.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Budgeting",
+      "file": "money/budgeting.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Debt",
+      "file": "money/debt.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Loans",
+      "file": "money/loans.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Credit cards",
+      "file": "money/credit-cards.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Buying a home",
+      "file": "money/buying-a-home.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Renting",
+      "file": "money/renting.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Investing basics",
+      "file": "money/investing-basics.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Emergency fund",
+      "file": "money/emergency-fund.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Supporting parents",
+      "file": "money/supporting-parents.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Financial independence",
+      "file": "money/financial-independence.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Wedding expenses",
+      "file": "money/wedding-expenses.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Education loans",
+      "file": "money/education-loans.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Business finance",
+      "file": "money/business-finance.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Salary planning",
+      "file": "money/salary-planning.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Insurance basics",
+      "file": "money/insurance-basics.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Retirement savings",
+      "file": "money/retirement-savings.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Children's education",
+      "file": "money/childrens-education.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Joint finances",
+      "file": "money/joint-finances.md",
+      "enriched": false
+    },
+    {
+      "category": "money",
+      "topic": "Talking about money",
+      "file": "money/talking-about-money.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Healthy eating",
+      "file": "health/healthy-eating.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Exercise",
+      "file": "health/exercise.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Sleep",
+      "file": "health/sleep.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Work-life balance",
+      "file": "health/work-life-balance.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Chronic illness support",
+      "file": "health/chronic-illness-support.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Supporting a sick family member",
+      "file": "health/supporting-a-sick-family-member.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Preventive health",
+      "file": "health/preventive-health.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Women's health awareness",
+      "file": "health/womens-health-awareness.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Men's health awareness",
+      "file": "health/mens-health-awareness.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Ageing",
+      "file": "health/ageing.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Stress management",
+      "file": "health/stress-management.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Digital wellness",
+      "file": "health/digital-wellness.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Substance use awareness",
+      "file": "health/substance-use-awareness.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Medical checkups",
+      "file": "health/medical-checkups.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Healthy routines",
+      "file": "health/healthy-routines.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Travel health",
+      "file": "health/travel-health.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Postpartum wellbeing",
+      "file": "health/postpartum-wellbeing.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Caregiver stress",
+      "file": "health/caregiver-stress.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Nutrition",
+      "file": "health/nutrition.md",
+      "enriched": false
+    },
+    {
+      "category": "health",
+      "topic": "Hydration",
+      "file": "health/hydration.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Confidence",
+      "file": "self-growth/confidence.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Discipline",
+      "file": "self-growth/discipline.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Habits",
+      "file": "self-growth/habits.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Goal setting",
+      "file": "self-growth/goal-setting.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Productivity",
+      "file": "self-growth/productivity.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Communication skills",
+      "file": "self-growth/communication-skills.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Public speaking",
+      "file": "self-growth/public-speaking.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Decision making",
+      "file": "self-growth/decision-making.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Leadership",
+      "file": "self-growth/leadership.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Emotional intelligence",
+      "file": "self-growth/emotional-intelligence.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Time management",
+      "file": "self-growth/time-management.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Purpose",
+      "file": "self-growth/purpose.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Resilience",
+      "file": "self-growth/resilience.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Self awareness",
+      "file": "self-growth/self-awareness.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Learning mindset",
+      "file": "self-growth/learning-mindset.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Forgiveness",
+      "file": "self-growth/forgiveness.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Patience",
+      "file": "self-growth/patience.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Creativity",
+      "file": "self-growth/creativity.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Handling criticism",
+      "file": "self-growth/handling-criticism.md",
+      "enriched": false
+    },
+    {
+      "category": "self-growth",
+      "topic": "Building consistency",
+      "file": "self-growth/building-consistency.md",
+      "enriched": false
+    }
+  ]
+}

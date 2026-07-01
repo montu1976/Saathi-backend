@@ -1,8 +1,29 @@
 {
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev:backend": "node server.js",
+    "build:web": "npm run build --prefix saathi-react && npm run build --prefix saathi-pro",
+    "dev:pro": "npm run dev --prefix saathi-pro",
+    "cap:pro:sync": "npm run cap:sync --prefix saathi-pro",
+    "cap:pro:android": "npm run cap:android --prefix saathi-pro",
+    "cap:pro:ios": "npm run cap:ios --prefix saathi-pro",
+    "start:all": "npm run build:web && npm run start",
+    "local": "npm run build:web && node scripts/start-local.mjs",
+    "test:local": "node scripts/test-local-flow.mjs",
+    "kb:generate": "node scripts/generate-knowledge-base.mjs",
+    "kb:embeddings": "node scripts/build-kb-embeddings.mjs",
+    "kb:build": "npm run kb:generate && npm run kb:embeddings",
+    "kb:review": "node scripts/kb-review.mjs",
+    "cap:sync": "npm run cap:sync --prefix saathi-react",
+    "cap:android": "npm run cap:android --prefix saathi-react",
+    "cap:ios": "npm run cap:ios --prefix saathi-react"
+  },
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "web-push": "^3.6.7"
   }
 }

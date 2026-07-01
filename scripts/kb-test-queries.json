@@ -1,0 +1,14 @@
+[
+  { "id": "breakup-1", "message": "breakup ho gaya 3 saal baad, raat ko bohot miss karta hoon", "expectTopics": ["Breakups"] },
+  { "id": "neet-1", "message": "NEET drop year hai Kota mein, mock score gir gaya parents gussa", "expectTopics": ["NEET", "JEE"] },
+  { "id": "mil-1", "message": "saas roz kitchen pe comment karti hai, pati kuch nahi bolta", "expectTopics": ["Mother-in-law"] },
+  { "id": "job-1", "message": "naukri chali gayi EMI aa rahi hai ghar pe kaise bolun", "expectTopics": ["Job loss"] },
+  { "id": "marriage-pressure-1", "message": "mummy har week rishta bhej rahi hai mujhe abhi ready nahi", "expectTopics": ["Marriage pressure"] },
+  { "id": "anxiety-1", "message": "interview se pehle haath kaamp rahe hain neend nahi aati", "expectTopics": ["Anxiety", "Interview"] },
+  { "id": "cheating-1", "message": "pata chala partner ne cheat kiya, forgive karun ya chhod dun", "expectTopics": ["Cheating", "Trust"] },
+  { "id": "burnout-1", "message": "IT job se burnout ho gaya Sunday ko hi darr lagta hai", "expectTopics": ["Burnout", "Work stress"] },
+  { "id": "in-laws-1", "message": "shaadi ke baad sasural mein rehna pad raha hai privacy zero", "expectTopics": ["Living with in-laws"] },
+  { "id": "vague-1", "message": "kuch samajh nahi aa raha life mein", "expectTopics": [] },
+  { "id": "followup-1", "message": "then kya karun", "thread": ["breakup ho gaya girlfriend se"], "expectTopics": ["Breakups"] },
+  { "id": "followup-2", "message": "aur bata", "thread": ["NEET second attempt fail mock low"], "expectTopics": ["NEET"] }
+]

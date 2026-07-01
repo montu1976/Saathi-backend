@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: saathi
+    runtime: node
+    buildCommand: npm install && npm install --prefix saathi-react && npm install --prefix saathi-pro && npm run build:web
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: APP_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ADMIN_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        sync: false
