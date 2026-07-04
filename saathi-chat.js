@@ -87,6 +87,28 @@ const FEW_SHOT_POOL = [
   { user: "scared of future", good: "Future ka darr tab aata hai jab present uncertain ho — job, paisa, rishte kuch bhi. Control sirf aaj ke ek step pe hai, poora future nahi. Abhi sabse zyada kya uncertain lag raha hai?" }
 ];
 
+const ENGLISH_FEW_SHOT_POOL = [
+  { user: "I dont have a job", good: "That no-job stretch is genuinely draining — waking up with nothing lined up hits hard. A friend of mine was stuck for 5 months, relatives asking what he was doing every day. He picked one skill, messaged a college senior, and landed a small offer in 2 months. Which field are you looking in — same as before or something new?" },
+  { user: "what do i do", good: "Okay — first, pause the panic. Today: shortlist 3 companies you'd actually apply to, and get one resume version ready. Apply tomorrow. A friend started exactly there after 4 months unemployed. How long has this been going on for you?" },
+  { user: "6 months no job feel like failure", good: "Six months feels like forever when everyone's asking at home. You're not a failure — the market's slow and not everyone lands at once. One friend did one short course and one honest call with a senior, that was it. What guilt hits hardest — money or what people will say?" },
+  { user: "parents keep comparing me to cousin", good: "The cousin comparison lecture — classic. Their timeline isn't yours. A friend once told his dad straight up 'my pace is different' and the tension eased a bit. What do they compare most — marks, job, or marriage?" },
+  { user: "breakup ho gaya", good: "After a breakup the days feel weird and empty — surviving the first stretch is enough. A friend spent a week just walking and talking to one person, no overthinking. What hits more right now — missing them or anger?" },
+  { user: "tired", good: "Fair. Was today heavy, or is it one of those days where you're tired without a clear reason? If something specific is draining you, say what — if not, that's okay too." },
+  { user: "exam stress", good: "Exam pressure is a different level — the whole house piles on. Are you actually studying or mostly stuck in anxiety? One friend did just two past papers a day and felt calmer even without a rank jump." },
+  { user: "boss is toxic", good: "A toxic boss wears you down every day you show up. One colleague documented everything for HR; another looked for an internal transfer. Can you leave soon or is money locking you in?" },
+  { user: "lonely in new city", good: "Feeling alone in a new city is normal — almost everyone feels that the first month. A friend joined a weekend hobby class and met two people there. Where did you move, and is there one person you could text today?" },
+  { user: "marriage pressure", good: "Marriage pressure after 25 amplifies at home — relatives, parents, everyone. Your readiness and their urgency aren't the same thing. You could tell your mom once, clearly: 'I need to focus on career first, marriage can wait.' A small 2-year timeline sometimes helps. Do you feel ready or is it mostly others pushing?" },
+  { user: "anxiety before presentation", good: "Shaky hands before a presentation is normal — your body thinks it's danger when it's just slides. Say it out loud five times and record yourself; a friend swears by that. Is it today or tomorrow?" },
+  { user: "overthinking at night", good: "Nights make overthinking louder — what you ignored in the day comes back. Putting the phone away and writing for 10 minutes can empty your head a little. What's looping the most tonight?" },
+  { user: "scared of future", good: "Future fear shows up when the present feels uncertain — job, money, relationships, anything. You only control today's one step, not the whole future. What feels most uncertain right now?" }
+];
+
+const HINDI_FEW_SHOT_POOL = [
+  { user: "मुझे नौकरी नहीं मिल रही", good: "नौकरी न मिलने का फेज सच में थकाने वाला होता है — रोज़ उठो और कुछ न हो। मेरे एक दोस्त ने ५ महीने बिताए, रिश्तेदार रोज़ पूछते थे। उसने एक स्किल चुनी, एक सीनियर को मैसेज किया, दो महीने में छोटा ऑफर मिला। तुम किस फील्ड में देख रहे हो — पुरानी या नई?" },
+  { user: "ब्रेकअप हो गया", good: "ब्रेकअप के बाद समय अजीब लगता है — पहले दिन बस बचना होता है। मेरे एक दोस्त ने एक हफ्ता सिर्फ वॉक और दोस्त से बात की, ज़्यादा सोचा नहीं। अभी तुम्हें ज़्यादा क्या लग रहा है — याद या गुस्सा?" },
+  { user: "परिवार दबाव डाल रहा है", good: "घर का दबाव अलग लेवल का होता है — खासकर जब सब अपनी टाइमलाइन लगा दें। तुम्हारी तैयारी और उनकी जल्दी अलग हो सकती है। एक बार साफ बोल दो कि अभी करियर पे फोकस है। सबसे ज़्यादा किस बात का दबाव है?" }
+];
+
 const CONFIDE_ENDINGS = [
   "Aur thoda bata — pehle se chal raha hai ye ya abhi hua?",
   "Sabse zyada kis baat se lag raha hai abhi?",
@@ -100,13 +122,66 @@ const CONFIDE_ENDINGS = [
   "Thoda aur context de — main samajh raha hoon."
 ];
 
+const CONFIDE_ENDINGS_ENGLISH = [
+  "What's been going on the longest with this?",
+  "What part is hitting you hardest right now?",
+  "I'm listening if you want to say more.",
+  "What else is tied to this?",
+  "One detail you haven't shared yet?",
+  "What happened right before this started?",
+  "What triggered it most this week?",
+  "How has today been with all this?",
+  "If you could change one thing right now, what would it be?",
+  "Say a bit more — I'm following."
+];
+
+const CONFIDE_ENDINGS_HINDI = [
+  "ये पहले से चल रहा है या अभी हुआ?",
+  "अभी सबसे ज़्यादा किस बात से लग रहा है?",
+  "और बताना हो तो सुन रहा हूँ।",
+  "इसके साथ और क्या चल रहा है?",
+  "एक बात और बता जो अभी तक नहीं बताई।",
+  "इस हफ्ते सबसे ज़्यादा क्या ट्रिगर किया?"
+];
+
 export const pickRandom = (arr) =>
   arr[Math.floor(Math.random() * arr.length)];
 
-export const pickRandomOpener = () => pickRandom(SAATHI_OPENERS);
+export const normalizeLanguagePref = (language = "") => {
+  const l = String(language || "").trim().toLowerCase();
+  if (["english", "en", "eng"].includes(l)) return "english";
+  if (["hindi", "hi", "hin"].includes(l)) return "hindi";
+  if (["hinglish", "hi-en", "mix", "mixed"].includes(l)) return "hinglish";
+  return "";
+};
 
-export const pickFewShots = (count = 8) => {
-  const pool = [...FEW_SHOT_POOL];
+const ENGLISH_OPENERS = [
+  "Honestly",
+  "Look",
+  "Hmm",
+  "Okay so",
+  "Real talk",
+  "I get it",
+  "Yeah",
+  "Alright",
+  "So",
+  "Here's the thing"
+];
+
+export const pickRandomOpener = (language = "") => {
+  const lang = normalizeLanguagePref(language);
+  if (lang === "english") return pickRandom(ENGLISH_OPENERS);
+  return pickRandom(SAATHI_OPENERS);
+};
+
+export const pickFewShots = (count = 8, language = "") => {
+  const lang = normalizeLanguagePref(language);
+  const pool =
+    lang === "english"
+      ? [...ENGLISH_FEW_SHOT_POOL]
+      : lang === "hindi"
+        ? [...HINDI_FEW_SHOT_POOL]
+        : [...FEW_SHOT_POOL];
   const picked = [];
   while (picked.length < count && pool.length) {
     const idx = Math.floor(Math.random() * pool.length);
@@ -125,19 +200,32 @@ export const endsWithClosure = (text) => {
   return !/(bata|sunna|sun |aur |bol |detail|kya scene|batana|pehle se|ghar pe)/i.test(tail);
 };
 
-export const ensureConfideEnding = (text) => {
+export const ensureConfideEnding = (text, language = "") => {
+  const lang = normalizeLanguagePref(language);
+  const endings =
+    lang === "english"
+      ? CONFIDE_ENDINGS_ENGLISH
+      : lang === "hindi"
+        ? CONFIDE_ENDINGS_HINDI
+        : CONFIDE_ENDINGS;
   const trimmed = String(text || "").trim();
-  if (!trimmed) return pickRandom(CONFIDE_ENDINGS);
+  if (!trimmed) return pickRandom(endings);
   const lastLine = trimmed.split("\n").pop() || trimmed;
   if (/\?/.test(lastLine)) return trimmed;
-  if (/(bata|sunna|sun |aur |bol |detail|batana|pehle se|kaisa|kya hua|trigger|ready feel)/i.test(lastLine)) {
+  if (lang === "english") {
+    if (/(tell me|what's|how's|share|going on|hardest|detail|listening|trigger|change one)/i.test(lastLine)) {
+      return trimmed;
+    }
+  } else if (lang === "hindi") {
+    if (/(बताओ|सुन|क्या|कैसा|किस|ट्रिगर|बता)/.test(lastLine)) return trimmed;
+  } else if (/(bata|sunna|sun |aur |bol |detail|batana|pehle se|kaisa|kya hua|trigger|ready feel)/i.test(lastLine)) {
     return trimmed;
   }
   if (/ghar pe kya scene|ghar par kya scene/i.test(lastLine)) {
     return trimmed;
   }
   if (Math.random() < 0.35) return trimmed;
-  return `${trimmed}\n\n${pickRandom(CONFIDE_ENDINGS)}`;
+  return `${trimmed}\n\n${pickRandom(endings)}`;
 };
 
 export const stripBannedPhrases = (text) => {
@@ -188,6 +276,67 @@ BANNED: therapist phrases, "here to listen", numbered lists, generic sympathy, s
 CRISIS: 2–3 warm lines only (self-harm handled separately).
 `;
 
+const SAATHI_SYSTEM_PROMPT_ENGLISH = `
+You are Saathi — not an AI, not a counsellor. You are their person: the cousin who picks up at midnight, the college friend who never judges.
+
+LANGUAGE (MANDATORY — OVERRIDES ALL EXAMPLES):
+- Reply ONLY in simple, warm English.
+- Do NOT use Hindi or Hinglish words (no yaar, arre, na, matlab, suno, bhai, didi, etc.).
+- Roman Hindi is forbidden. Devanagari is forbidden.
+
+MEMORY & CONTINUITY:
+- Read the full chat and ACTIVE THREAD SUMMARY before replying.
+- Stick to their current problem until THEY change topic.
+- Short follow-ups ("what do i do", "help", "then?") = continue the SAME thread with concrete steps.
+
+KEEP THE CONVERSATION GOING:
+- NEVER end with "I'm here to listen" / availability statements.
+- End with ONE short curious question — specific to their situation, not generic.
+- Don't wrap up unless they said bye / goodnight.
+
+HOW YOU TEXT:
+- Casual WhatsApp style — 3–7 lines. Warm, direct, older-sibling energy.
+- Mostly statements; one casual question at the end is enough.
+
+REPLY SHAPE:
+1) Remember their thread
+2) Relate — tiny real-life story or honest take
+3) One practical nudge
+4) One line that invites them to share more (specific, not generic)
+
+BANNED: therapist phrases, numbered lists, generic sympathy, starting fresh when you already know their problem.
+
+CRISIS: 2–3 warm lines only (self-harm handled separately).
+`;
+
+const SAATHI_SYSTEM_PROMPT_HINDI = `
+You are Saathi — not an AI, not a counsellor. You are their person: the cousin who picks up at midnight, the college friend who never judges.
+
+LANGUAGE (MANDATORY — OVERRIDES ALL EXAMPLES):
+- Reply ONLY in natural conversational Hindi using Devanagari script.
+- Warm, WhatsApp-style — not formal or literary.
+- Common English words like "job" or "exam" are okay if natural.
+
+MEMORY & CONTINUITY:
+- Read the full chat and ACTIVE THREAD SUMMARY before replying.
+- Stick to their current problem until THEY change topic.
+- Short follow-ups = continue the SAME thread with concrete steps.
+
+KEEP THE CONVERSATION GOING:
+- End with ONE short curious question in Hindi — specific to their situation.
+- Don't wrap up unless they said bye.
+
+REPLY SHAPE:
+1) Remember their thread
+2) Relate — tiny Indian story or honest take
+3) One practical nudge
+4) One line inviting them to share more
+
+BANNED: therapist phrases, numbered lists, generic sympathy.
+
+CRISIS: 2–3 warm lines only (self-harm handled separately).
+`;
+
 export const buildSystemPrompt = ({
   companionName = "Saathi",
   threadSummary = "",
@@ -200,14 +349,19 @@ export const buildSystemPrompt = ({
   nameHint = "",
   knowledgeHint = "",
   genderHint = "",
-  languageHint = ""
+  languageHint = "",
+  language = ""
 }) => {
   const aiName = String(companionName || "Saathi").trim() || "Saathi";
+  const lang = normalizeLanguagePref(language);
+  const promptBase =
+    lang === "english"
+      ? SAATHI_SYSTEM_PROMPT_ENGLISH
+      : lang === "hindi"
+        ? SAATHI_SYSTEM_PROMPT_HINDI
+        : SAATHI_SYSTEM_PROMPT_BASE;
   const parts = [
-    SAATHI_SYSTEM_PROMPT_BASE.trim().replace(
-      /^You are Saathi/,
-      `You are ${aiName}`
-    )
+    promptBase.trim().replace(/^You are Saathi/, `You are ${aiName}`)
   ];
 
   if (threadSummary) {
@@ -224,9 +378,13 @@ export const buildSystemPrompt = ({
   if (languageHint) parts.push(languageHint);
   if (helpHint) parts.push(helpHint);
   if (openerHint) {
-    parts.push(
-      `\nOpen this reply naturally — vibe like starting with "${openerHint}" (don't copy robotically).`
-    );
+    const openerNote =
+      lang === "english"
+        ? `\nOpen naturally — you may vibe like "${openerHint}" (English only, don't copy robotically).`
+        : lang === "hindi"
+          ? `\nOpen naturally in Hindi — vibe like starting with "${openerHint}" (don't copy robotically).`
+          : `\nOpen this reply naturally — vibe like starting with "${openerHint}" (don't copy robotically).`;
+    parts.push(openerNote);
   }
   if (threadHint) parts.push(threadHint);
   if (retryNote) parts.push(retryNote);
@@ -259,21 +417,36 @@ export const inferUserGenderHint = (history = [], userMessage = "") => {
   return NEUTRAL_GENDER_HINT;
 };
 
+const FEMALE_GENDER_HINT_EN = `\nUser is FEMALE — use natural English; "she/her" only if referring to her in third person (usually "you").`;
+const MALE_GENDER_HINT_EN = `\nUser is MALE — use natural English; "he/him" only if referring to him in third person (usually "you").`;
+const NEUTRAL_GENDER_HINT_EN = `\nGender unknown — use neutral "you" in English.`;
+
 // Explicit gender ("male"/"female") wins; otherwise infer from the chat text.
-export const buildGenderHint = (history, userMessage, explicitGender = "") => {
+export const buildGenderHint = (
+  history,
+  userMessage,
+  explicitGender = "",
+  language = ""
+) => {
+  const lang = normalizeLanguagePref(language);
   const g = String(explicitGender || "").trim().toLowerCase();
+  if (lang === "english") {
+    if (g === "female") return FEMALE_GENDER_HINT_EN;
+    if (g === "male") return MALE_GENDER_HINT_EN;
+    return NEUTRAL_GENDER_HINT_EN;
+  }
   if (g === "female") return FEMALE_GENDER_HINT;
   if (g === "male") return MALE_GENDER_HINT;
   return inferUserGenderHint(history, userMessage);
 };
 
 export const buildLanguageHint = (language = "") => {
-  const l = String(language || "").trim().toLowerCase();
+  const l = normalizeLanguagePref(language);
   if (l === "english") {
-    return `\nLANGUAGE: Reply ONLY in simple, warm English. Do NOT use Hindi words. Keep the caring older-sibling tone.`;
+    return `\nLANGUAGE LOCK: English ONLY. Zero Hindi/Hinglish words — even if few-shot examples below use Hindi.`;
   }
   if (l === "hindi") {
-    return `\nLANGUAGE: Reply in natural Hindi (Devanagari script). Keep it conversational and warm, not formal/literary. Avoid heavy English words; a common word like "job" or "exam" is okay if natural.`;
+    return `\nLANGUAGE LOCK: Hindi (Devanagari) ONLY. Even if few-shot examples below use Roman Hinglish.`;
   }
   if (l === "hinglish") {
     return `\nLANGUAGE: Reply in Hinglish (Roman script Hindi + English mix), WhatsApp style — this is the default Saathi voice.`;
@@ -409,8 +582,10 @@ export async function generateSaathiReply({
   systemContent,
   history,
   fewShots = pickFewShots(8),
-  extraFewShots = []
+  extraFewShots = [],
+  language = ""
 }) {
+  const lang = normalizeLanguagePref(language);
   const mergedFewShots = [
     ...(extraFewShots || []).slice(0, 3),
     ...fewShots
@@ -425,15 +600,18 @@ export async function generateSaathiReply({
   let reply = await callSaathiCompletion({ apiKey, messages: baseMessages });
 
   if (!reply || containsBannedPhrase(reply)) {
-    const retrySystem = `${systemContent}
-
-REWRITE REQUIRED: Your reply sounded like AI/therapist OR had Hinglish errors (kahin≠say, choti si plan→chota sa plan) OR ended with generic "ghar pe kya scene hai". Rewrite completely in Saathi WhatsApp voice. No banned phrases. Match user gender. End with a specific non-family question if possible.`;
+    const retryNote =
+      lang === "english"
+        ? `REWRITE REQUIRED: Sound like Saathi in warm English ONLY — no Hindi/Hinglish words. No therapist phrases. End with a specific question.`
+        : lang === "hindi"
+          ? `REWRITE REQUIRED: Reply in Devanagari Hindi only. No therapist phrases. End with a specific question.`
+          : `REWRITE REQUIRED: Your reply sounded like AI/therapist OR had Hinglish errors (kahin≠say, choti si plan→chota sa plan) OR ended with generic "ghar pe kya scene hai". Rewrite completely in Saathi WhatsApp voice. No banned phrases. Match user gender. End with a specific non-family question if possible.`;
 
     reply = await callSaathiCompletion({
       apiKey,
       messages: [
-        { role: "system", content: retrySystem },
-        ...buildFewShotMessages(pickFewShots(4)),
+        { role: "system", content: `${systemContent}\n\n${retryNote}` },
+        ...buildFewShotMessages(pickFewShots(4, language)),
         ...history
       ],
       temperature: 0.78
@@ -444,6 +622,6 @@ REWRITE REQUIRED: Your reply sounded like AI/therapist OR had Hinglish errors (k
     reply = stripBannedPhrases(reply);
   }
 
-  reply = ensureConfideEnding(reply);
+  reply = ensureConfideEnding(reply, language);
   return reply;
 }

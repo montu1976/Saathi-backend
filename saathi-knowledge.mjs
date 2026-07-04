@@ -232,7 +232,8 @@ export async function buildKnowledgeContext(
   companionName = "Saathi",
   apiKey = null,
   recentTopics = [],
-  corrections = []
+  corrections = [],
+  language = ""
 ) {
   const matches = await findKnowledgeMatches(
     message,
@@ -273,8 +274,16 @@ export async function buildKnowledgeContext(
 
   if (!matches.length && !correctionBlock) return "";
 
+  const lang = String(language || "").trim().toLowerCase();
+  const voiceNote =
+    lang === "english"
+      ? "use for ideas and facts — reply in English only, do NOT copy Hindi/Hinglish phrasing from below"
+      : lang === "hindi"
+        ? "use for ideas and facts — reply in Devanagari Hindi only"
+        : `still reply in short WhatsApp ${aiName} voice`;
+
   const topicBlock = matches.length
-    ? `KNOWLEDGE BASE (use for tone and facts — still reply in short WhatsApp ${aiName} voice; do NOT dump lists or sound like an article${repeatNote}):
+    ? `KNOWLEDGE BASE (${voiceNote}; do NOT dump lists or sound like an article${repeatNote}):
 ${blocks.join("\n\n---\n\n")}`
     : "";
 

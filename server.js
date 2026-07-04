@@ -2463,7 +2463,12 @@ app.post("/chat", async (req, res) => {
       displayName,
       shouldUseName(userMsgCount)
     );
-    const genderHint = buildGenderHint(trimmedHistory, userMessage, userGender);
+    const genderHint = buildGenderHint(
+      trimmedHistory,
+      userMessage,
+      userGender,
+      userLanguage
+    );
     const languageHint = buildLanguageHint(userLanguage);
 
     const recentKbTopics = chatSession?.recentKbTopics || guestThread?.recentKbTopics || [];
@@ -2490,7 +2495,8 @@ app.post("/chat", async (req, res) => {
       companionName,
       OPENAI_API_KEY,
       recentKbTopics,
-      matchedCorrections
+      matchedCorrections,
+      userLanguage
     );
 
     const newKbTopics = [
@@ -2503,12 +2509,13 @@ app.post("/chat", async (req, res) => {
       threadSummary,
       displayName,
       city,
-      openerHint: pickRandomOpener(),
+      openerHint: pickRandomOpener(userLanguage),
       threadHint,
       helpHint,
       nameHint,
       genderHint,
       languageHint,
+      language: userLanguage,
       knowledgeHint
     });
 
@@ -2518,13 +2525,16 @@ app.post("/chat", async (req, res) => {
         apiKey: OPENAI_API_KEY,
         systemContent,
         history: trimmedHistory,
-        fewShots: pickFewShots(8),
-        extraFewShots: correctionsToFewShots(matchedCorrections)
+        fewShots: pickFewShots(8, userLanguage),
+        extraFewShots: correctionsToFewShots(matchedCorrections),
+        language: userLanguage
       });
     } catch (error) {
       console.error("OPENAI ERROR:", error);
       reply =
-        "Arre network glitch lag raha hai — ek sec baad dubara likh de. Tab tak bata, abhi sabse zyada kya chal raha hai?";
+        userLanguage === "english"
+          ? "Looks like a network glitch — try sending that again in a sec. What's weighing on you most right now?"
+          : "Arre network glitch lag raha hai — ek sec baad dubara likh de. Tab tak bata, abhi sabse zyada kya chal raha hai?";
     }
 
     const finalHistory = trimmedHistory
