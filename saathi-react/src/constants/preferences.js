@@ -23,7 +23,8 @@ export const AI_NAME_PRESETS = [
 ];
 
 export const CHAT_STARTERS = [
-  "I'm stressed about exams",
-  "Family pressure is getting to me",
-  "I feel lonely lately"
+  { label: "Exams stressing me out", icon: "graduation" },
+  { label: "Family pressure", icon: "home" },
+  { label: "Feeling lonely", icon: "heart" },
+  { label: "Can't sleep / anxious", icon: "moon" }
 ];

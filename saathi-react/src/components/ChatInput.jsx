@@ -1,4 +1,4 @@
-import { SendHorizonal } from "lucide-react";
+import { Send } from "lucide-react";
 import { Button } from "./ui/index.js";
 
 export default function ChatInput({
@@ -10,16 +10,18 @@ export default function ChatInput({
 }) {
   return (
     <div className="input-area">
-      <input
-        value={value}
-        onChange={onChange}
-        onKeyDown={e => {
-          if (e.key === "Enter") onSend();
-        }}
-        placeholder={placeholder}
-        disabled={disabled}
-        aria-label="Message"
-      />
+      <div className="input-area__field">
+        <input
+          value={value}
+          onChange={onChange}
+          onKeyDown={e => {
+            if (e.key === "Enter") onSend();
+          }}
+          placeholder={placeholder}
+          disabled={disabled}
+          aria-label="Message"
+        />
+      </div>
       <Button
         type="button"
         variant="primary"
@@ -27,9 +29,8 @@ export default function ChatInput({
         onClick={onSend}
         disabled={disabled || !value.trim()}
         aria-label="Send message"
-      >
-        <SendHorizonal size={18} />
-      </Button>
+        icon={Send}
+      />
     </div>
   );
 }

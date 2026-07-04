@@ -1,3 +1,4 @@
+import { Mail, MessageCircle, LogIn, UserPlus, ShieldCheck } from "lucide-react";
 import { Button } from "./ui/index.js";
 
 export default function AuthCard({
@@ -36,6 +37,7 @@ export default function AuthCard({
           size="compact"
           active={authProvider === "email"}
           aria-pressed={authProvider === "email"}
+          icon={Mail}
           onClick={() => onProviderChange("email")}
         >
           Email
@@ -45,6 +47,7 @@ export default function AuthCard({
           size="compact"
           active={authProvider === "whatsapp"}
           aria-pressed={authProvider === "whatsapp"}
+          icon={MessageCircle}
           onClick={() => onProviderChange("whatsapp")}
         >
           WhatsApp {whatsappConfigured ? "✓" : ""}
@@ -65,7 +68,12 @@ export default function AuthCard({
             value={password}
             onChange={e => onPasswordChange(e.target.value)}
           />
-          <Button variant="primary" size="compact" onClick={onAuth}>
+          <Button
+            variant="primary"
+            size="compact"
+            icon={authMode === "login" ? LogIn : UserPlus}
+            onClick={onAuth}
+          >
             {authMode === "login" ? "Login" : "Create Account"}
           </Button>
           <Button variant="ghost" size="compact" onClick={onToggleAuthMode}>
@@ -95,11 +103,11 @@ export default function AuthCard({
             />
           )}
           {otpStage === "request" ? (
-            <Button variant="primary" size="compact" onClick={onRequestOtp}>
+            <Button variant="primary" size="compact" icon={MessageCircle} onClick={onRequestOtp}>
               Send OTP
             </Button>
           ) : (
-            <Button variant="primary" size="compact" onClick={onVerifyOtp}>
+            <Button variant="primary" size="compact" icon={ShieldCheck} onClick={onVerifyOtp}>
               Verify OTP
             </Button>
           )}

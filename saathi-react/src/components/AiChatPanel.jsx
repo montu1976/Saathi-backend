@@ -1,7 +1,15 @@
+import { GraduationCap, Home, Heart, Moon, Sparkles } from "lucide-react";
 import ChatMessage from "./ChatMessage.jsx";
 import ChatInput from "./ChatInput.jsx";
 import { CHAT_STARTERS } from "../constants/preferences.js";
-import { Chip, ChipRow } from "./ui/index.js";
+import { StarterGrid, StarterOption } from "./ui/index.js";
+
+const STARTER_ICONS = {
+  graduation: GraduationCap,
+  home: Home,
+  heart: Heart,
+  moon: Moon
+};
 
 export default function AiChatPanel({
   messages,
@@ -20,17 +28,26 @@ export default function AiChatPanel({
       <div className="chat-box" ref={chatBoxRef}>
         {showStarters && (
           <div className="chat-empty">
+            <div className="chat-empty__hero" aria-hidden="true">
+              <Sparkles size={28} strokeWidth={2} />
+            </div>
             <p className="chat-empty__title">What&apos;s on your mind?</p>
             <p className="chat-empty__subtitle">
-              Private conversation · Not a replacement for therapy
+              Tap a topic to start — private &amp; judgment-free
             </p>
-            <ChipRow className="chat-starters">
-              {CHAT_STARTERS.map(starter => (
-                <Chip key={starter} onClick={() => onStarterSelect(starter)}>
-                  {starter}
-                </Chip>
-              ))}
-            </ChipRow>
+            <StarterGrid>
+              {CHAT_STARTERS.map(starter => {
+                const Icon = STARTER_ICONS[starter.icon];
+                return (
+                  <StarterOption
+                    key={starter.label}
+                    icon={Icon}
+                    label={starter.label}
+                    onClick={() => onStarterSelect(starter.label)}
+                  />
+                );
+              })}
+            </StarterGrid>
           </div>
         )}
 
@@ -45,6 +62,9 @@ export default function AiChatPanel({
 
         {loading && (
           <div className="msg-row msg-row-ai">
+            <div className="msg-avatar msg-avatar-ai" aria-hidden="true">
+              <Sparkles size={16} strokeWidth={2.25} />
+            </div>
             <div className="msg-bubble">
               <span className="msg-sender">{aiDisplayName}</span>
               <div className="typing-indicator" aria-label="Typing">

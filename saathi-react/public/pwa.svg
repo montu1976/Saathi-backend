@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Saathi">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6b8269"/>
-      <stop offset="100%" stop-color="#8fa68e"/>
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#2ec4b6"/>
     </linearGradient>
     <linearGradient id="leaf" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#b5c4b3"/>
-      <stop offset="100%" stop-color="#8fa68e"/>
+      <stop offset="0%" stop-color="#7ee8dc"/>
+      <stop offset="100%" stop-color="#2ec4b6"/>
     </linearGradient>
   </defs>
   <circle cx="60" cy="60" r="56" fill="url(#bg)"/>
   <path d="M60 28 C42 38 34 58 38 78 C48 72 58 68 60 58 C62 68 72 72 82 78 C86 58 78 38 60 28Z" fill="url(#leaf)"/>
-  <path d="M60 38 L60 72" stroke="#6b8269" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-  <path d="M60 82 C54 76 44 76 44 84 C44 92 60 98 60 98 C60 98 76 92 76 84 C76 76 66 76 60 82Z" fill="#f4c4a8"/>
+  <path d="M60 38 L60 72" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M60 82 C54 76 44 76 44 84 C44 92 60 98 60 98 C60 98 76 92 76 84 C76 76 66 76 60 82Z" fill="#ffb07a"/>
 </svg>

@@ -2,8 +2,10 @@ export function Button({
   variant = "primary",
   size = "md",
   active = false,
+  icon: Icon,
   className = "",
   type = "button",
+  children,
   ...props
 }) {
   const classes = [
@@ -16,5 +18,16 @@ export function Button({
     .filter(Boolean)
     .join(" ");
 
-  return <button type={type} className={classes} {...props} />;
+  const iconSize = size === "compact" ? 16 : 18;
+
+  return (
+    <button type={type} className={classes} {...props}>
+      {Icon && (
+        <span className="ui-btn__icon" aria-hidden="true">
+          <Icon size={iconSize} strokeWidth={2.25} />
+        </span>
+      )}
+      {children}
+    </button>
+  );
 }
