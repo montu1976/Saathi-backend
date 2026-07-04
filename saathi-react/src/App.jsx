@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Moon, SendHorizonal, Sun, Compass, DoorOpen } from "lucide-react";
+import { Moon, Sun, Compass, DoorOpen } from "lucide-react";
 import { getApiBase } from "./apiBase.js";
 import PrivacyPolicy from "./PrivacyPolicy.jsx";
 import { formatChatStamp, formatChatTime } from "./formatStamp.js";
+import AiChatPanel from "./components/AiChatPanel.jsx";
+import AppMainTabs from "./components/AppMainTabs.jsx";
+import AuthCard from "./components/AuthCard.jsx";
+import OnboardingModal from "./components/OnboardingModal.jsx";
+import ProfileMenu from "./components/ProfileMenu.jsx";
 import "./App.css";
 
 function App() {
@@ -85,24 +90,7 @@ function App() {
   const genderKey = "saathi_user_gender";
   const languageKey = "saathi_user_language";
   const prefsAskedKey = "saathi_prefs_asked";
-  const LANGUAGE_OPTIONS = [
-    { value: "english", label: "English" },
-    { value: "hindi", label: "Hindi" },
-    { value: "hinglish", label: "Hinglish" }
-  ];
   const supportSessionKey = "saathi_support_request_id";
-  const AI_NAME_PRESETS = [
-    "Rahul",
-    "Anjali",
-    "Riya",
-    "Sunny",
-    "Manu",
-    "Gaurav",
-    "Dimpy",
-    "Neha",
-    "Varun",
-    "Vihan"
-  ];
   const guestId = localStorage.getItem(guestIdKey) || crypto.randomUUID();
   if (!localStorage.getItem(guestIdKey)) {
     localStorage.setItem(guestIdKey, guestId);
@@ -1236,9 +1224,9 @@ function App() {
     }
   };
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    const currentInput = input;
+  const sendMessage = async (overrideText) => {
+    const currentInput = String(overrideText ?? input).trim();
+    if (!currentInput) return;
     setInput("");
     setMessages(prev => [...prev, { role: "user", content: currentInput }]);
     setLoading(true);
@@ -1431,268 +1419,60 @@ function App() {
                 {getSessionLabel()}
               </button>
               {profileMenuOpen && (
-                <div className="profile-menu">
-                  <div className="footer-menu-section">
-                    <div className="footer-menu-title">Profile</div>
-                    <div className="footer-profile-row">
-                      <div className="footer-avatar footer-avatar-lg">{getAvatarInitial()}</div>
-                      <div className="footer-profile-info">
-                        <div className="footer-profile-name">{getDisplayName()}</div>
-                        <div className="footer-profile-type">{getSessionLabel()}</div>
-                        {professionalTopics.length > 0 && (
-                          <div className="footer-pro-tag">
-                            Pro: {professionalTopics.join(", ")} — use{" "}
-                            <a href="/pro/" className="pro-link">
-                              Saathi Partner
-                            </a>
-                          </div>
-                        )}
-                        {profileCity && (
-                          <div className="footer-profile-type">{profileCity}</div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="footer-profile-form">
-                      <input
-                        placeholder="Your name (optional)"
-                        value={profileName}
-                        onChange={e => setProfileName(e.target.value)}
-                      />
-                      <input
-                        placeholder="City (optional)"
-                        value={profileCity}
-                        onChange={e => setProfileCity(e.target.value)}
-                      />
-                      <button type="button" className="btn-toolbar" onClick={handleSaveProfile}>
-                        Save profile
-                      </button>
-                      {profileMsg && <div className="auth-info">{profileMsg}</div>}
-                    </div>
-                    {(user || isGuest) && (
-                      <div className="footer-menu-section ai-name-section">
-                        <div className="footer-menu-title">
-                          AI friend name ({getAiDisplayName()})
-                        </div>
-                        <div className="ai-name-chips">
-                          {AI_NAME_PRESETS.map(name => (
-                            <button
-                              key={name}
-                              type="button"
-                              className={`ai-name-chip ${aiCompanionName === name ? "active" : ""}`}
-                              onClick={() => saveAiCompanionName(name)}
-                            >
-                              {name}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="ai-name-custom-row">
-                          <input
-                            placeholder="Custom (8 chars max)"
-                            maxLength={8}
-                            value={customAiName}
-                            onChange={e => setCustomAiName(e.target.value)}
-                          />
-                          <button
-                            type="button"
-                            className="btn-toolbar"
-                            onClick={() => saveAiCompanionName(customAiName)}
-                          >
-                            Set
-                          </button>
-                        </div>
-                        <button
-                          type="button"
-                          className="btn-ghost btn-compact"
-                          onClick={() => saveAiCompanionName("")}
-                        >
-                          Reset to Saathi
-                        </button>
-                      </div>
-                    )}
-                    {(user || isGuest) && (
-                      <div className="footer-menu-section ai-name-section">
-                        <div className="footer-menu-title">You are</div>
-                        <div className="ai-name-chips">
-                          {[
-                            { value: "female", label: "Female" },
-                            { value: "male", label: "Male" }
-                          ].map(opt => (
-                            <button
-                              key={opt.value}
-                              type="button"
-                              className={`ai-name-chip ${userGender === opt.value ? "active" : ""}`}
-                              onClick={() => saveUserPrefs({ gender: opt.value })}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="footer-menu-title">Reply language</div>
-                        <div className="ai-name-chips">
-                          {LANGUAGE_OPTIONS.map(opt => (
-                            <button
-                              key={opt.value}
-                              type="button"
-                              className={`ai-name-chip ${userLanguage === opt.value ? "active" : ""}`}
-                              onClick={() => saveUserPrefs({ language: opt.value })}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {(user || isGuest) && (
-                      <div className="footer-menu-section peer-settings-section">
-                        <div className="footer-menu-title">Connect with others</div>
-                        <label className="peer-check">
-                          <input
-                            type="checkbox"
-                            checked={peerSettings.contactOk}
-                            onChange={async e => {
-                              const contactOk = e.target.checked;
-                              setPeerConsentDraft(prev => ({ ...prev, contactOk }));
-                              try {
-                                const data = await apiRequest("/peer/settings", {
-                                  method: "PUT",
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                    ...getAuthHeaders()
-                                  },
-                                  body: JSON.stringify({
-                                    guestId: !user ? guestId : undefined,
-                                    contactOk,
-                                    anonymous: peerSettings.anonymous
-                                  })
-                                });
-                                setPeerSettings(data.settings);
-                                localStorage.setItem("saathi_peer_consent_asked", "1");
-                              } catch (err) {
-                                setPeerError(err.message);
-                              }
-                            }}
-                          />
-                          OK to be contacted by other users
-                        </label>
-                        <label className="peer-check">
-                          <input
-                            type="checkbox"
-                            checked={peerSettings.anonymous}
-                            onChange={async e => {
-                              const anonymous = e.target.checked;
-                              try {
-                                const data = await apiRequest("/peer/settings", {
-                                  method: "PUT",
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                    ...getAuthHeaders()
-                                  },
-                                  body: JSON.stringify({
-                                    guestId: !user ? guestId : undefined,
-                                    contactOk: peerSettings.contactOk,
-                                    anonymous
-                                  })
-                                });
-                                setPeerSettings(data.settings);
-                              } catch (err) {
-                                setPeerError(err.message);
-                              }
-                            }}
-                          />
-                          Stay anonymous in peer chat
-                        </label>
-                      </div>
-                    )}
-                  </div>
-
-                  {user && hasPassword && (
-                    <div className="footer-menu-section">
-                      {!showPasswordForm ? (
-                        <button
-                          type="button"
-                          className="footer-menu-item"
-                          onClick={() => {
-                            setShowPasswordForm(true);
-                            setPasswordError("");
-                            setPasswordMsg("");
-                          }}
-                        >
-                          Change password
-                        </button>
-                      ) : (
-                        <div className="footer-password-form">
-                          <input
-                            type="password"
-                            placeholder="Current password"
-                            value={currentPassword}
-                            onChange={e => setCurrentPassword(e.target.value)}
-                          />
-                          <input
-                            type="password"
-                            placeholder="New password"
-                            value={newPassword}
-                            onChange={e => setNewPassword(e.target.value)}
-                          />
-                          <div className="footer-password-actions">
-                            <button type="button" className="btn-toolbar" onClick={handleChangePassword}>Save</button>
-                            <button
-                              type="button"
-                              className="btn-toolbar"
-                              onClick={() => setShowPasswordForm(false)}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                          {passwordError && <div className="auth-error">{passwordError}</div>}
-                          {passwordMsg && <div className="auth-info">{passwordMsg}</div>}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {user && (
-                    <div className="footer-menu-section">
-                      <div className="footer-menu-title">Recent chats</div>
-                      <button type="button" className="footer-menu-item" onClick={startNewChat}>
-                        + New chat
-                      </button>
-                      {chatSessions.length === 0 && (
-                        <div className="footer-menu-empty">No saved chats yet</div>
-                      )}
-                      {chatSessions.map(session => (
-                        <button
-                          key={session.id}
-                          type="button"
-                          className={`footer-chat-item ${activeChatId === session.id ? "active" : ""}`}
-                          onClick={() => loadChatSession(session.id)}
-                        >
-                          <span className="footer-chat-title">{session.title}</span>
-                          <span className="footer-chat-preview">{session.preview}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="footer-menu-section footer-menu-actions">
-                    {isGuest && (
-                      <button
-                        type="button"
-                        className="footer-menu-item"
-                        onClick={() => {
-                          setIsGuest(false);
-                          setProfileMenuOpen(false);
-                        }}
-                      >
-                        Login
-                      </button>
-                    )}
-                    {user && (
-                      <button type="button" className="footer-menu-item footer-logout" onClick={handleLogout}>
-                        Logout
-                      </button>
-                    )}
-                  </div>
-                </div>
+                <ProfileMenu
+                  user={user}
+                  isGuest={isGuest}
+                  guestId={guestId}
+                  getDisplayName={getDisplayName}
+                  getSessionLabel={getSessionLabel}
+                  getAvatarInitial={getAvatarInitial}
+                  getAiDisplayName={getAiDisplayName}
+                  professionalTopics={professionalTopics}
+                  profileName={profileName}
+                  profileCity={profileCity}
+                  profileMsg={profileMsg}
+                  aiCompanionName={aiCompanionName}
+                  customAiName={customAiName}
+                  userGender={userGender}
+                  userLanguage={userLanguage}
+                  peerSettings={peerSettings}
+                  peerError={peerError}
+                  hasPassword={hasPassword}
+                  showPasswordForm={showPasswordForm}
+                  currentPassword={currentPassword}
+                  newPassword={newPassword}
+                  passwordError={passwordError}
+                  passwordMsg={passwordMsg}
+                  chatSessions={chatSessions}
+                  activeChatId={activeChatId}
+                  onProfileNameChange={setProfileName}
+                  onProfileCityChange={setProfileCity}
+                  onSaveProfile={handleSaveProfile}
+                  onSaveAiName={saveAiCompanionName}
+                  onResetAiName={() => saveAiCompanionName("")}
+                  onCustomAiNameChange={setCustomAiName}
+                  onSaveUserPrefs={saveUserPrefs}
+                  onPeerSettingsUpdate={setPeerSettings}
+                  onPeerError={setPeerError}
+                  onShowPasswordForm={() => {
+                    setShowPasswordForm(true);
+                    setPasswordError("");
+                    setPasswordMsg("");
+                  }}
+                  onHidePasswordForm={() => setShowPasswordForm(false)}
+                  onCurrentPasswordChange={setCurrentPassword}
+                  onNewPasswordChange={setNewPassword}
+                  onChangePassword={handleChangePassword}
+                  onStartNewChat={startNewChat}
+                  onLoadChatSession={loadChatSession}
+                  onLogin={() => {
+                    setIsGuest(false);
+                    setProfileMenuOpen(false);
+                  }}
+                  onLogout={handleLogout}
+                  apiRequest={apiRequest}
+                  getAuthHeaders={getAuthHeaders}
+                />
               )}
             </div>
           )}
@@ -1735,83 +1515,32 @@ function App() {
             showPrivacy ? (
               <PrivacyPolicy onBack={() => setShowPrivacy(false)} />
             ) : (
-            <div className="auth-card auth-card-compact">
-              <p className="mode-info auth-tagline">Login to save chats, or continue as guest.</p>
-              <div className="auth-tabs">
-                <button
-                  type="button"
-                  className={`btn-compact ${authProvider === "email" ? "active" : ""}`}
-                  onClick={() => setAuthProvider("email")}
-                >
-                  Email
-                </button>
-                <button
-                  type="button"
-                  className={`btn-compact ${authProvider === "whatsapp" ? "active" : ""}`}
-                  onClick={() => setAuthProvider("whatsapp")}
-                >
-                  WhatsApp {whatsappConfigured ? "✓" : ""}
-                </button>
-              </div>
-
-              {authProvider === "email" && (
-                <div className="auth-row">
-                  <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-                  <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-                  <button type="button" className="btn-primary btn-compact" onClick={handleAuth}>{authMode === "login" ? "Login" : "Create Account"}</button>
-                  <button type="button" className="btn-ghost btn-compact" onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}>
-                    {authMode === "login" ? "Need account?" : "Have account?"}
-                  </button>
-                </div>
-              )}
-
-              {authProvider === "whatsapp" && (
-                <div className="auth-row auth-row-phone">
-                  <input
-                    className="input-phone"
-                    type="tel"
-                    inputMode="tel"
-                    placeholder="10-digit mobile"
-                    value={phone}
-                    onChange={e => setPhone(e.target.value)}
-                  />
-                  {otpStage === "verify" && (
-                    <input
-                      className="input-otp"
-                      placeholder="OTP"
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={otp}
-                      onChange={e => setOtp(e.target.value)}
-                    />
-                  )}
-                  {otpStage === "request" ? (
-                    <button type="button" className="btn-primary btn-compact" onClick={requestWhatsAppOtp}>Send OTP</button>
-                  ) : (
-                    <button type="button" className="btn-primary btn-compact" onClick={verifyWhatsAppOtp}>Verify OTP</button>
-                  )}
-                </div>
-              )}
-
-              {authError && <p className="auth-error auth-msg">{authError}</p>}
-              {authInfo && !authError && <p className="auth-info auth-msg">{authInfo}</p>}
-              {hasProfessionalDeepLink() && (
-                <p className="auth-info auth-msg">
-                  Professional link — use WhatsApp login with your assigned number.
-                </p>
-              )}
-              {!hasProfessionalDeepLink() && (
-                <button type="button" className="btn-secondary btn-compact" onClick={continueAsGuest}>Continue as Guest</button>
-              )}
-
-              <button
-                type="button"
-                className="privacy-link"
-                onClick={() => setShowPrivacy(true)}
-              >
-                Privacy Policy
-              </button>
-            </div>
+            <AuthCard
+              authProvider={authProvider}
+              authMode={authMode}
+              email={email}
+              password={password}
+              phone={phone}
+              otp={otp}
+              otpStage={otpStage}
+              whatsappConfigured={whatsappConfigured}
+              authError={authError}
+              authInfo={authInfo}
+              hasProfessionalDeepLink={hasProfessionalDeepLink()}
+              onProviderChange={setAuthProvider}
+              onEmailChange={setEmail}
+              onPasswordChange={setPassword}
+              onPhoneChange={setPhone}
+              onOtpChange={setOtp}
+              onAuth={handleAuth}
+              onToggleAuthMode={() =>
+                setAuthMode(authMode === "login" ? "register" : "login")
+              }
+              onRequestOtp={requestWhatsAppOtp}
+              onVerifyOtp={verifyWhatsAppOtp}
+              onGuest={continueAsGuest}
+              onPrivacy={() => setShowPrivacy(true)}
+            />
             )
           )}
 
@@ -1820,102 +1549,18 @@ function App() {
               className={`chat-layout ${toolbarCollapsed ? "scrolled" : ""} ${guideOpen ? "guide-open" : ""}`}
             >
               {showAiNamePrompt && (
-                <div className="peer-consent-overlay">
-                  <div className="peer-consent-card ai-name-card">
-                    <h3>Let&apos;s set up your Saathi</h3>
-                    <p>
-                      A few quick choices so we can talk to you the right way.
-                      You can change these anytime from the menu.
-                    </p>
-
-                    <div className="pref-block">
-                      <span className="pref-label">Name your AI friend</span>
-                      <div className="ai-name-chips">
-                        {AI_NAME_PRESETS.map(name => (
-                          <button
-                            key={name}
-                            type="button"
-                            className={`ai-name-chip ${aiNameDraft === name ? "active" : ""}`}
-                            onClick={() => {
-                              setAiNameDraft(name);
-                              setCustomAiName("");
-                            }}
-                          >
-                            {name}
-                          </button>
-                        ))}
-                      </div>
-                      <div className="ai-name-custom-row">
-                        <input
-                          placeholder="Or type your own (8 chars max)"
-                          maxLength={8}
-                          value={customAiName}
-                          onChange={e => {
-                            setCustomAiName(e.target.value);
-                            setAiNameDraft("");
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="pref-block">
-                      <span className="pref-label">You are</span>
-                      <div className="ai-name-chips">
-                        {[
-                          { value: "female", label: "Female" },
-                          { value: "male", label: "Male" }
-                        ].map(opt => (
-                          <button
-                            key={opt.value}
-                            type="button"
-                            className={`ai-name-chip ${userGender === opt.value ? "active" : ""}`}
-                            onClick={() => setUserGender(opt.value)}
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                      <span className="pref-hint">
-                        Helps us phrase things correctly (e.g. karti / karta).
-                      </span>
-                    </div>
-
-                    <div className="pref-block">
-                      <span className="pref-label">Reply language</span>
-                      <div className="ai-name-chips">
-                        {LANGUAGE_OPTIONS.map(opt => (
-                          <button
-                            key={opt.value}
-                            type="button"
-                            className={`ai-name-chip ${userLanguage === opt.value ? "active" : ""}`}
-                            onClick={() => setUserLanguage(opt.value)}
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="peer-consent-actions">
-                      <button
-                        type="button"
-                        className="btn-primary btn-compact"
-                        onClick={() =>
-                          saveAiCompanionName(aiNameDraft || customAiName)
-                        }
-                      >
-                        Save &amp; start
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-ghost btn-compact"
-                        onClick={() => saveAiCompanionName("")}
-                      >
-                        Skip for now
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <OnboardingModal
+                  aiNameDraft={aiNameDraft}
+                  customAiName={customAiName}
+                  userGender={userGender}
+                  userLanguage={userLanguage}
+                  onAiNameDraftChange={setAiNameDraft}
+                  onCustomAiNameChange={setCustomAiName}
+                  onGenderChange={setUserGender}
+                  onLanguageChange={setUserLanguage}
+                  onSave={() => saveAiCompanionName(aiNameDraft || customAiName)}
+                  onSkip={() => saveAiCompanionName("")}
+                />
               )}
 
               {showPeerConsent && (
@@ -1972,86 +1617,33 @@ function App() {
                 </div>
               )}
 
-              <nav className="app-main-tabs">
-                <button
-                  type="button"
-                  className={appTab === "ai" ? "active" : ""}
-                  onClick={() => setAppTab("ai")}
-                >
-                  Saathi AI
-                </button>
-                <button
-                  type="button"
-                  className={appTab === "professional" ? "active" : ""}
-                  onClick={() => {
-                    setAppTab("professional");
-                    loadSupportChats();
-                  }}
-                >
-                  Professional
-                  {supportChats.length > 0 && (
-                    <span className="tab-badge">{supportChats.length}</span>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  className={appTab === "community" ? "active" : ""}
-                  onClick={() => {
-                    setAppTab("community");
-                    loadPeerChats();
-                    loadOnlinePeople();
-                  }}
-                >
-                  Community
-                  {peerChats.filter(c => c.status === "active").length > 0 && (
-                    <span className="tab-badge">
-                      {peerChats.filter(c => c.status === "active").length}
-                    </span>
-                  )}
-                </button>
-              </nav>
+              <AppMainTabs
+                appTab={appTab}
+                supportCount={supportChats.length}
+                activePeerCount={peerChats.filter(c => c.status === "active").length}
+                onAiTab={() => setAppTab("ai")}
+                onProfessionalTab={() => {
+                  setAppTab("professional");
+                  loadSupportChats();
+                }}
+                onCommunityTab={() => {
+                  setAppTab("community");
+                  loadPeerChats();
+                  loadOnlinePeople();
+                }}
+              />
 
               {appTab === "ai" && (
-                <>
-                  <div className="chat-section">
-                    <div className="chat-box" ref={chatBoxRef}>
-                      {messages.map((msg, index) => (
-                        <div
-                          key={index}
-                          className={`msg-row ${msg.role === "user" ? "msg-row-user" : "msg-row-ai"}`}
-                        >
-                          <div className="msg-bubble">
-                            <span className="msg-sender">{msg.role === "user" ? "You" : getAiDisplayName()}</span>
-                            <span className="msg-text">{msg.content}</span>
-                          </div>
-                        </div>
-                      ))}
-                      {loading && (
-                        <div className="msg-row msg-row-ai">
-                          <div className="msg-bubble">
-                            <span className="msg-sender">{getAiDisplayName()}</span>
-                            <div className="typing-indicator" aria-label="Typing">
-                              <span /><span /><span />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="input-area">
-                      <input
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onKeyDown={e => {
-                          if (e.key === "Enter") sendMessage();
-                        }}
-                        placeholder="Share what's on your mind..."
-                      />
-                      <button type="button" className="btn-send" onClick={sendMessage} aria-label="Send">
-                        <SendHorizonal size={20} />
-                      </button>
-                    </div>
-                  </div>
-                </>
+                <AiChatPanel
+                  messages={messages}
+                  loading={loading}
+                  input={input}
+                  onInputChange={e => setInput(e.target.value)}
+                  onSend={() => sendMessage()}
+                  onStarterSelect={starter => sendMessage(starter)}
+                  aiDisplayName={getAiDisplayName()}
+                  chatBoxRef={chatBoxRef}
+                />
               )}
 
               {appTab === "professional" && (

@@ -27,8 +27,8 @@ export default defineConfig({
         description: "Your Friend, Your Guide",
         start_url: "./",
         display: "standalone",
-        background_color: "#f5f0e8",
-        theme_color: "#1b4332",
+        background_color: "#e8edea",
+        theme_color: "#8fa68e",
         icons: [
           {
             src: "./pwa.svg",

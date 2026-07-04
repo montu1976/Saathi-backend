@@ -176,6 +176,8 @@
   background: #4caf50;
   color: #0d2818;
   font-weight: 700;
+  border-color: #a5d6a7;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.22);
 }
 
 .badge {
@@ -617,6 +619,8 @@
   background: #4caf50;
   color: #0d2818;
   border-color: #4caf50;
+  font-weight: 800;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.22);
 }
 
 .kb-review-panel {
@@ -660,6 +664,8 @@
 .kb-tab.active {
   background: rgba(76, 175, 80, 0.25);
   border-color: #4caf50;
+  color: #ffffff;
+  box-shadow: inset 0 -3px 0 #4caf50;
 }
 
 .kb-live-toggle {

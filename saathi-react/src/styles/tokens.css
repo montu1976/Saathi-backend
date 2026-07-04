@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  /*
+   * 60-30-10 palette
+   * 60% Sea salt — backgrounds
+   * 30% Sage green — secondary UI (header, tabs, chips, user bubbles)
+   * 10% Soft peach — accent / CTA
+   */
+  --color-sea-salt: #e8edea;
+  --color-sea-salt-light: #f4f7f5;
+  --color-sea-salt-deep: #dde4e0;
+
+  --color-sage: #8fa68e;
+  --color-sage-dark: #6b8269;
+  --color-sage-light: #b5c4b3;
+  --color-sage-muted: rgba(143, 166, 142, 0.18);
+
+  --color-peach: #f4c4a8;
+  --color-peach-dark: #e5a880;
+  --color-peach-soft: rgba(244, 196, 168, 0.32);
+
+  /* Surfaces (60%) */
+  --color-bg-app: var(--color-sea-salt-deep);
+  --color-bg-surface: var(--color-sea-salt-light);
+  --color-bg-elevated: #ffffff;
+  --color-bg-muted: var(--color-sage-muted);
+
+  /* Secondary (30%) */
+  --color-secondary: var(--color-sage);
+  --color-secondary-dark: var(--color-sage-dark);
+  --color-secondary-light: var(--color-sage-light);
+
+  /* Accent / CTA (10%) */
+  --color-accent: var(--color-peach);
+  --color-accent-dark: var(--color-peach-dark);
+  --color-accent-soft: var(--color-peach-soft);
+
+  /* Semantic mappings */
+  --color-primary: var(--color-sage-dark);
+  --color-primary-mid: var(--color-sage);
+  --color-primary-light: var(--color-sage-light);
+
+  /* Text */
+  --color-text: #3a4538;
+  --color-text-muted: #5f6b5d;
+  --color-text-inverse: #ffffff;
+  --color-text-on-sage: #ffffff;
+  --color-text-on-peach: #4a3f38;
+  --color-text-on-primary: var(--color-text-on-sage);
+
+  /* Borders & shadows */
+  --color-border: rgba(107, 130, 105, 0.18);
+  --color-border-strong: rgba(107, 130, 105, 0.32);
+  --shadow-sm: 0 1px 2px rgba(58, 69, 56, 0.06);
+  --shadow-md: 0 4px 16px rgba(58, 69, 56, 0.08);
+  --shadow-lg: 0 16px 40px rgba(58, 69, 56, 0.1);
+
+  /* Semantic */
+  --color-error: #c62828;
+  --color-error-soft: #ffebee;
+  --color-success: var(--color-sage-dark);
+
+  /* Help categories */
+  --help-lawyers: #5b7a9a;
+  --help-tarot: #8a7aa8;
+  --help-astro: #c48a62;
+
+  /* Typography */
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --text-xs: 0.72rem;
+  --text-sm: 0.84rem;
+  --text-base: 0.94rem;
+  --text-lg: 1.08rem;
+  --text-xl: 1.35rem;
+  --leading-tight: 1.35;
+  --leading-normal: 1.5;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Legacy aliases */
+  --forest-bg: var(--color-sage-dark);
+  --forest-bg-mid: var(--color-sage);
+  --forest-bg-light: var(--color-sage-light);
+  --brown: #6f5f55;
+  --brown-dark: #4f453e;
+  --brown-mid: #8a796f;
+  --brown-light: #a8988e;
+  --cream: var(--color-bg-surface);
+  --white: #ffffff;
+  --text-on-green: var(--color-text-on-sage);
+  --text-on-cream: var(--color-text);
+  --text-muted: rgba(255, 255, 255, 0.82);
+  --error: #ffb4a8;
+  --radius: var(--radius-lg);
+  --leaf: var(--color-peach);
+}
+
+.dark {
+  --color-bg-app: #2a3329;
+  --color-bg-surface: #343f34;
+  --color-bg-elevated: rgba(255, 255, 255, 0.08);
+  --color-sea-salt: #343f34;
+  --color-sea-salt-light: #3d4a3d;
+  --color-text: #e8edea;
+  --color-text-muted: rgba(232, 237, 234, 0.72);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+}
