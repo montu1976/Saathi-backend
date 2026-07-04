@@ -1,7 +1,11 @@
 /* eslint-disable no-restricted-globals */
+import { clientsClaim } from "workbox-core";
 import { precacheAndRoute } from "workbox-precaching";
 
 precacheAndRoute(self.__WB_MANIFEST || []);
+
+self.skipWaiting();
+clientsClaim();
 
 self.addEventListener("push", (event) => {
   let payload = {

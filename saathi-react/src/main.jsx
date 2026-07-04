@@ -8,6 +8,9 @@ import App from "./App.jsx";
 if (import.meta.env.PROD && !Capacitor.isNativePlatform()) {
   registerSW({
     immediate: true,
+    onNeedRefresh() {
+      window.location.reload();
+    },
     onRegisterError(error) {
       console.error("Service worker registration failed:", error);
     }

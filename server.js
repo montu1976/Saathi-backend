@@ -2675,6 +2675,18 @@ const startServer = async () => {
   }
 
   if (existsSync(path.join(FRONTEND_DIST, "index.html"))) {
+    app.use((req, res, next) => {
+      const p = req.path;
+      if (
+        p === "/" ||
+        p.endsWith("/index.html") ||
+        p.endsWith("/sw.js") ||
+        p.endsWith("/manifest.webmanifest")
+      ) {
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      }
+      next();
+    });
     app.use(express.static(FRONTEND_DIST));
     app.get(/^(?!\/(auth|chat|support|admin|whatsapp|push|health|config|r|peer|presence|guide|pro)(\/|$)).*/, (req, res) => {
       res.sendFile(path.join(FRONTEND_DIST, "index.html"));
