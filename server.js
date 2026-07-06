@@ -663,6 +663,10 @@ const hashPassword = (password) => {
 };
 
 const verifyPassword = (password, stored) => {
+  if (!stored) return false;
+  if (!String(stored).includes(":")) {
+    return password === stored;
+  }
   const [salt, storedHash] = stored.split(":");
   if (!salt || !storedHash) return false;
   const hashBuffer = crypto.scryptSync(password, salt, 64);
@@ -670,6 +674,9 @@ const verifyPassword = (password, stored) => {
   if (hashBuffer.length !== storedBuffer.length) return false;
   return crypto.timingSafeEqual(hashBuffer, storedBuffer);
 };
+
+const getUserPasswordStored = user =>
+  user?.passwordHash || user?.password || "";
 
 const generateToken = () =>
   crypto.randomBytes(32).toString("hex");
@@ -1430,15 +1437,22 @@ app.post("/auth/register", async (req, res) => {
 });
 
 // ✅ Login endpoint
-app.post("/auth/login", (req, res) => {
+app.post("/auth/login", async (req, res) => {
   const email = normalizeEmail(req.body.email);
   const password = String(req.body.password || "");
 
   const user = users.find(item => item.email === email);
-  if (!user || !verifyPassword(password, user.passwordHash)) {
+  const stored = getUserPasswordStored(user);
+  if (!user || !stored || !verifyPassword(password, stored)) {
     return res.status(401).json({
       error: "Invalid email or password."
     });
+  }
+
+  if (!user.passwordHash || !String(user.passwordHash).includes(":")) {
+    user.passwordHash = hashPassword(password);
+    delete user.password;
+    await saveUsers();
   }
 
   const token = generateToken();
@@ -1696,18 +1710,119 @@ app.get("/peer/online", (req, res) => {
   }
   pruneStalePresence();
   const selfKey = makeActorKey(actor.type, actor.id);
-  const stats = countOnlinePeers();
   const people = [];
   for (const [key, entry] of onlinePeers.entries()) {
     if (key === selfKey) continue;
     people.push({
+      actorKey: key,
       label: publicOnlinePeerEntry(entry),
       topics: entry.keywords || [],
       openToChat: Boolean(entry.contactOk)
     });
   }
   people.sort((a, b) => Number(b.openToChat) - Number(a.openToChat));
-  res.json({ ...stats, people });
+  res.json({ people });
+});
+
+app.post("/peer/invite", async (req, res) => {
+  const actor = getActorId(req);
+  if (!actor) {
+    return res.status(401).json({ error: "Login or guest session required." });
+  }
+
+  const targetKey = String(req.body?.actorKey || "").trim();
+  if (!targetKey) {
+    return res.status(400).json({ error: "Pick someone to chat with." });
+  }
+
+  const selfKey = makeActorKey(actor.type, actor.id);
+  if (targetKey === selfKey) {
+    return res.status(400).json({ error: "Cannot chat with yourself." });
+  }
+
+  pruneStalePresence();
+  const targetEntry = onlinePeers.get(targetKey);
+  if (!targetEntry) {
+    return res.status(404).json({ error: "That person is no longer online." });
+  }
+
+  const { type: targetType, id: targetId } = parseActorKey(targetKey);
+  if (!targetType || !targetId) {
+    return res.status(400).json({ error: "Invalid user." });
+  }
+
+  const existing = peerSessions.find(
+    session =>
+      session.status === "active" &&
+      ((session.participantA.type === actor.type &&
+        session.participantA.id === actor.id &&
+        session.participantB.type === targetType &&
+        session.participantB.id === targetId) ||
+        (session.participantB.type === actor.type &&
+          session.participantB.id === actor.id &&
+          session.participantA.type === targetType &&
+          session.participantA.id === targetId))
+  );
+  if (existing) {
+    const partner = getPeerPartner(existing, actor.type, actor.id);
+    return res.json({
+      sessionId: existing.id,
+      session: {
+        ...existing,
+        partnerDisplay: partner?.display || "Saathi user"
+      }
+    });
+  }
+
+  if (findActivePeerSessionForActor(actor.type, actor.id)) {
+    return res.status(400).json({
+      error: "You already have an active chat. End it before starting another."
+    });
+  }
+  if (findActivePeerSessionForActor(targetType, targetId)) {
+    return res.status(400).json({
+      error: "That person is already in another chat."
+    });
+  }
+
+  const mySettings = getPeerSettings(actor.type, actor.id);
+  const targetSettings = getPeerSettings(targetType, targetId);
+  const displayA = makePeerDisplay({
+    anonymous: mySettings.anonymous,
+    displayName: actor.user?.displayName,
+    actorId: actor.id
+  });
+  const displayB = makePeerDisplay({
+    anonymous: targetEntry.anonymous,
+    displayName: targetEntry.display,
+    actorId: targetId
+  });
+
+  const session = createPeerSession({
+    actorA: {
+      type: actor.type,
+      id: actor.id,
+      anonymous: mySettings.anonymous
+    },
+    actorB: {
+      type: targetType,
+      id: targetId,
+      anonymous: targetSettings.anonymous
+    },
+    matchedKeywords: [],
+    displayA,
+    displayB
+  });
+  peerSessions.push(session);
+  await savePeerSessions();
+
+  res.json({
+    sessionId: session.id,
+    session: {
+      ...session,
+      partnerDisplay: displayB
+    }
+  });
 });
 
 app.get("/peer/my-chats", (req, res) => {

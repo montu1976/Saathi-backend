@@ -122,6 +122,7 @@ body {
   padding: 10px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.98);
+  color: var(--color-text);
   box-shadow:
     0 8px 0 rgba(13, 148, 136, 0.1),
     0 16px 40px rgba(0, 0, 0, 0.18);
@@ -129,7 +130,8 @@ body {
 }
 
 .dark .profile-menu {
-  background: rgba(13, 148, 136, 0.98);
+  background: rgba(30, 42, 42, 0.98);
+  color: var(--color-text);
 }
 
 .footer-avatar {
@@ -1195,13 +1197,14 @@ select:focus {
   gap: 8px;
   flex: 1;
   min-width: 0;
-  color: var(--white);
+  color: var(--color-text);
 }
 
 .guide-label {
   font-weight: 800;
   font-size: 0.9rem;
   white-space: nowrap;
+  color: var(--color-teal-dark);
 }
 
 .guide-select {
@@ -1210,15 +1213,18 @@ select:focus {
   max-width: none;
   padding: 10px 12px;
   font-size: 0.875rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--brown-dark);
-  box-shadow:
-    0 4px 0 rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
+}
+
+.guide-select option {
+  color: var(--color-text);
+  background: var(--color-bg-elevated);
 }
 
 .guide-active-label {
@@ -1596,28 +1602,30 @@ select:focus {
   align-items: center;
   padding: 0.5rem;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
 }
 
-.dark .online-person-row {
-  background: rgba(0, 0, 0, 0.15);
+.online-person-row .wa-chat-body {
+  flex: 1;
+  min-width: 0;
 }
 
-.community-avatar {
-  background: #5c6bc0;
-}
-
-.online-pill {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 0.1rem 0.4rem;
-  border-radius: 999px;
+.btn-invite-chat {
+  flex-shrink: 0;
+  min-height: 34px !important;
+  padding: 6px 12px !important;
+  font-size: 0.75rem !important;
 }
 
 .online-pill.open {
-  background: rgba(46, 125, 50, 0.15);
-  color: #2e7d32;
+  background: var(--color-teal-muted);
+  color: var(--color-teal-dark);
+}
+
+.community-avatar {
+  background: var(--gradient-user-bubble);
+  color: var(--color-text-on-teal);
 }
 
 .online-pill.private {
@@ -1669,13 +1677,13 @@ select:focus {
   font-size: 0.8rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
-  opacity: 0.85;
+  color: var(--color-text);
 }
 
 .pref-hint {
   display: block;
   font-size: 0.72rem;
-  opacity: 0.65;
+  color: var(--color-text-muted);
   margin-top: 0.35rem;
 }
 
@@ -1719,8 +1727,8 @@ select:focus {
 }
 
 .peer-consent-card {
-  background: var(--color-bg-surface);
-  color: var(--color-teal-dark);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
   border-radius: 14px;
   padding: 1.25rem;
   max-width: 380px;
@@ -1728,11 +1736,21 @@ select:focus {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
 }
 
 .peer-consent-card h3 {
   margin: 0;
   font-size: 1.1rem;
+  color: var(--color-teal-dark);
+}
+
+.peer-consent-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .peer-consent-actions {
@@ -1747,6 +1765,18 @@ select:focus {
   gap: 0.5rem;
   font-size: 0.85rem;
   line-height: 1.35;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.profile-menu .peer-check,
+.profile-menu .footer-menu-title,
+.profile-menu .footer-profile-name {
+  color: var(--color-text);
+}
+
+.profile-menu .footer-menu-title {
+  color: var(--color-teal-dark);
 }
 
 .peer-settings-section .peer-check {

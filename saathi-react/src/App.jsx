@@ -171,6 +171,10 @@ function App() {
       if (l) localStorage.setItem(languageKey, l);
       else localStorage.removeItem(languageKey);
     }
+    if (g && l) {
+      localStorage.setItem(prefsAskedKey, "1");
+      setShowAiNamePrompt(false);
+    }
     try {
       if (user && token) {
         await apiRequest("/auth/profile", {
@@ -195,6 +199,12 @@ function App() {
 
   const maybeShowAiNamePrompt = () => {
     if (localStorage.getItem(prefsAskedKey)) return;
+    const g = localStorage.getItem(genderKey);
+    const l = localStorage.getItem(languageKey);
+    if (g && l) {
+      localStorage.setItem(prefsAskedKey, "1");
+      return;
+    }
     setShowAiNamePrompt(true);
   };
 
@@ -251,24 +261,9 @@ function App() {
       }}
     >
       <option value="" disabled>Choose a guide…</option>
-      <option value="lawyers">
-        Lawyers
-        {guideStatus?.topics?.lawyers
-          ? ` (${guideStatus.topics.lawyers.online}/${guideStatus.topics.lawyers.total} online)`
-          : ""}
-      </option>
-      <option value="tarot">
-        Tarot Reader
-        {guideStatus?.topics?.tarot
-          ? ` (${guideStatus.topics.tarot.online}/${guideStatus.topics.tarot.total} online)`
-          : ""}
-      </option>
-      <option value="astro">
-        Astro / Kundli
-        {guideStatus?.topics?.astro
-          ? ` (${guideStatus.topics.astro.online}/${guideStatus.topics.astro.total} online)`
-          : ""}
-      </option>
+      <option value="lawyers">Lawyers</option>
+      <option value="tarot">Tarot Reader</option>
+      <option value="astro">Astro / Kundli</option>
     </select>
   );
 
@@ -324,11 +319,14 @@ function App() {
       });
       if (data.settings) {
         setPeerSettings(data.settings);
+        if (data.settings.updatedAt) {
+          localStorage.setItem("saathi_peer_consent_asked", "1");
+        }
         const asked = localStorage.getItem("saathi_peer_consent_asked");
-        if (!asked && !data.settings.contactOk) {
+        if (!asked && !data.settings.updatedAt) {
           setPeerConsentDraft({
-            contactOk: false,
-            anonymous: true
+            contactOk: Boolean(data.settings.contactOk),
+            anonymous: data.settings.anonymous !== false
           });
           setShowPeerConsent(true);
         }
@@ -383,12 +381,32 @@ function App() {
         headers: getAuthHeaders()
       });
       setOnlinePeople(data.people || []);
-      setPeersOnline({
-        total: data.total || 0,
-        matchable: data.matchable || 0
-      });
     } catch {
       setOnlinePeople([]);
+    }
+  };
+
+  const invitePeerChat = async actorKey => {
+    if (!actorKey) return;
+    setPeerError("");
+    try {
+      const data = await apiRequest("/peer/invite", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders()
+        },
+        body: JSON.stringify({
+          guestId: !user ? guestId : undefined,
+          actorKey
+        })
+      });
+      await loadPeerSessionById(data.sessionId);
+      setAppTab("community");
+      setPeerListView(false);
+      await loadPeerChats();
+    } catch (error) {
+      setPeerError(error.message);
     }
   };
 
@@ -1068,22 +1086,45 @@ function App() {
       return;
     }
     setAuthError("");
+    setAuthInfo("");
     setAuthLoading(true);
     try {
       const endpoint = authMode === "login" ? "/auth/login" : "/auth/register";
       const data = await apiRequest(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email: email.trim(), password })
       });
       localStorage.setItem("saathi_token", data.token);
       setToken(data.token);
-      setUser(data.user);
-      setProfessionalTopics([]);
+      const me = await apiRequest("/auth/me", {
+        headers: { Authorization: `Bearer ${data.token}` }
+      });
+      setUser(me.user);
+      setProfessionalTopics(me.professionalTopics || []);
+      setWhatsappConfigured(Boolean(me.whatsappConfigured));
+      setHasPassword(Boolean(me.hasPassword));
+      setProfileName(me.user.displayName || "");
+      setProfileCity(me.user.city || "");
+      if (me.user.aiName) {
+        setAiCompanionName(me.user.aiName);
+        localStorage.setItem(aiNameKey, me.user.aiName);
+      }
+      if (me.user.gender) {
+        setUserGender(me.user.gender);
+        localStorage.setItem(genderKey, me.user.gender);
+      }
+      if (me.user.language) {
+        setUserLanguage(me.user.language);
+        localStorage.setItem(languageKey, me.user.language);
+      }
       setIsGuest(false);
-      setHasPassword(true);
       setMessages([]);
       setActiveChatId(null);
+      setAuthInfo(
+        authMode === "login" ? "Logged in successfully." : "Account created."
+      );
+      await refreshInbox();
     } catch (error) {
       setAuthError(error.message);
     } finally {
@@ -1556,8 +1597,8 @@ function App() {
                   userLanguage={userLanguage}
                   onAiNameDraftChange={setAiNameDraft}
                   onCustomAiNameChange={setCustomAiName}
-                  onGenderChange={setUserGender}
-                  onLanguageChange={setUserLanguage}
+                  onGenderChange={g => saveUserPrefs({ gender: g })}
+                  onLanguageChange={l => saveUserPrefs({ language: l })}
                   onSave={() => saveAiCompanionName(aiNameDraft || customAiName)}
                   onSkip={() => saveAiCompanionName("")}
                 />
@@ -1775,21 +1816,13 @@ function App() {
                       <div className="community-online-panel">
                         <div className="community-online-head">
                           <strong>Online now</strong>
-                          <span className="online-badge">
-                            {peersOnline.matchable} open to chat · {peersOnline.total} total
-                          </span>
                         </div>
-                        {!peerSettings.contactOk && (
-                          <p className="mode-info">
-                            Turn on &quot;OK to be contacted&quot; in your profile menu to get matched with others.
-                          </p>
-                        )}
                         <div className="online-people-list">
                           {onlinePeople.length === 0 && (
                             <p className="mode-info wa-empty">No one else online right now.</p>
                           )}
-                          {onlinePeople.map((person, i) => (
-                            <div key={`${person.label}-${i}`} className="online-person-row">
+                          {onlinePeople.map(person => (
+                            <div key={person.actorKey} className="online-person-row">
                               <div className="wa-chat-avatar community-avatar">
                                 {person.label.replace(/[^A-Za-z0-9#]/g, "").slice(-1) || "?"}
                               </div>
@@ -1808,6 +1841,13 @@ function App() {
                                   </div>
                                 )}
                               </div>
+                              <button
+                                type="button"
+                                className="btn-primary btn-compact btn-invite-chat"
+                                onClick={() => invitePeerChat(person.actorKey)}
+                              >
+                                Chat
+                              </button>
                             </div>
                           ))}
                         </div>
