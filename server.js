@@ -12,6 +12,7 @@ import webpush from "web-push";
 import {
   buildHelpHint,
   buildNameHint,
+  buildAgeHint,
   buildGenderHint,
   buildLanguageHint,
   buildSystemPrompt,
@@ -75,7 +76,16 @@ const PRO_STATUS_STALE_MS = 2 * 60 * 1000;
 const PEER_PRESENCE_STALE_MS = 90 * 1000;
 const SERVER_PORT = Number(process.env.PORT || 3000);
 
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      // Keep raw body for Meta webhook signature checks.
+      if (req.originalUrl?.startsWith("/webhooks/whatsapp")) {
+        req.rawBody = buf.toString("utf8");
+      }
+    }
+  })
+);
 app.use(cors());
 
 // ✅ OpenAI key from .env
@@ -89,6 +99,7 @@ let chatSessionsByUserId = {};
 const guestThreadsByGuestId = new Map();
 let guestProfilesByGuestId = {};
 const otpByPhone = new Map();
+const otpByEmail = new Map();
 let professionals = {
   lawyers: [],
   tarot: [],
@@ -127,6 +138,80 @@ const normalizeIndianPhoneToE164 = (input) => {
 const generateOtp = () => String(
   Math.floor(100000 + Math.random() * 900000)
 );
+
+const getResendConfig = () => ({
+  apiKey: String(process.env.RESEND_API_KEY || "").trim(),
+  from:
+    String(process.env.RESEND_FROM || "").trim() ||
+    "Saathi <onboarding@resend.dev>"
+});
+
+const sendAppEmail = async ({ to, subject, text, logLabel }) => {
+  const { apiKey, from } = getResendConfig();
+
+  if (!apiKey) {
+    console.log(`[DEV FALLBACK] ${logLabel} for ${to}:\n${text}`);
+    return { dev: true };
+  }
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject,
+        text
+      })
+    });
+    if (!response.ok) {
+      const err = await response.text();
+      console.error(`RESEND FAILED (${logLabel}):`, err);
+      console.log(`[DEV FALLBACK] ${logLabel} for ${to}:\n${text}`);
+      return { dev: true, failed: true };
+    }
+    return { dev: false };
+  } catch (error) {
+    console.error(`RESEND ERROR (${logLabel}):`, error.message);
+    console.log(`[DEV FALLBACK] ${logLabel} for ${to}:\n${text}`);
+    return { dev: true, failed: true };
+  }
+};
+
+const sendWelcomeEmail = (email, password) => {
+  const appUrl = getPublicAppBase().replace(/\/$/, "");
+  return sendAppEmail({
+    to: email,
+    subject: "Welcome to Saathi — your login details",
+    text: `Welcome to Saathi!
+
+Your account is ready.
+
+Username (email): ${email}
+Password: ${password}
+
+Log in here: ${appUrl}
+
+Keep this email safe. You can change your password anytime from your profile after logging in.
+
+— Saathi · Your Friend, Your Guide`,
+    logLabel: "Welcome email"
+  });
+};
+
+const sendPasswordResetEmail = (email, code) =>
+  sendAppEmail({
+    to: email,
+    subject: "Saathi password reset code",
+    text: `Your Saathi password reset code is: ${code}
+
+It expires in 5 minutes. If you did not request this, you can ignore this email.`,
+    logLabel: "Password reset OTP"
+  });
 
 const isWhatsAppConfigured = () =>
   Boolean(
@@ -762,6 +847,7 @@ const publicUser = (user) => ({
   bio: user.bio || "",
   aiName: user.aiName || "",
   gender: user.gender || "",
+  age: user.age || "",
   language: user.language || "",
   professionalTopics: user.phone
     ? getProfessionalTopicsForPhone(user.phone)
@@ -786,6 +872,28 @@ const normalizeLanguage = (value) => {
   if (["hindi", "hi", "hin"].includes(v)) return "hindi";
   if (["hinglish", "hi-en", "mix", "mixed"].includes(v)) return "hinglish";
   return "";
+};
+
+const AGE_BANDS = new Set([
+  "under_13",
+  "13_17",
+  "18_24",
+  "25_40",
+  "41_60",
+  "60_plus"
+]);
+
+const normalizeAge = (value) => {
+  const v = String(value || "").trim().toLowerCase().replace(/\s+/g, "_");
+  if (AGE_BANDS.has(v)) return v;
+  const n = Number.parseInt(v, 10);
+  if (!Number.isFinite(n) || n < 5 || n > 120) return "";
+  if (n < 13) return "under_13";
+  if (n <= 17) return "13_17";
+  if (n <= 24) return "18_24";
+  if (n <= 40) return "25_40";
+  if (n <= 60) return "41_60";
+  return "60_plus";
 };
 
 const loadGuestProfiles = async () => {
@@ -861,14 +969,20 @@ const getGuestProfile = (guestId, body = {}) => {
     body.language !== undefined
       ? normalizeLanguage(body.language)
       : normalizeLanguage(stored.language || "");
+  const age =
+    body.age !== undefined
+      ? normalizeAge(body.age)
+      : normalizeAge(stored.age || "");
   if (
     displayName ||
     city ||
     body.aiName !== undefined ||
     body.gender !== undefined ||
+    body.age !== undefined ||
     body.language !== undefined ||
     stored.aiName ||
     stored.gender ||
+    stored.age ||
     stored.language
   ) {
     guestProfilesByGuestId[guestId] = {
@@ -876,6 +990,7 @@ const getGuestProfile = (guestId, body = {}) => {
       city: city || stored.city || "",
       aiName: aiName || stored.aiName || "",
       gender: gender || stored.gender || "",
+      age: age || stored.age || "",
       language: language || stored.language || ""
     };
   }
@@ -885,6 +1000,7 @@ const getGuestProfile = (guestId, body = {}) => {
       city: "",
       aiName: "",
       gender: "",
+      age: "",
       language: ""
     }
   );
@@ -936,9 +1052,11 @@ const getActorId = (req) => {
 
 const normalizeTopic = (topic) => {
   const value = String(topic || "").trim().toLowerCase();
-  if (value === "lawyers") return "lawyers";
-  if (value === "tarot") return "tarot";
-  if (value === "astro") return "astro";
+  if (["lawyers", "lawyer", "law", "legal"].includes(value)) return "lawyers";
+  if (["tarot", "tarotreader", "tarot_reader"].includes(value)) return "tarot";
+  if (["astro", "astrology", "kundli", "astrologer"].includes(value)) {
+    return "astro";
+  }
   return null;
 };
 
@@ -1194,8 +1312,112 @@ const crisisWords = [
 
 app.get("/whatsapp/status", (req, res) => {
   res.json({
-    configured: isWhatsAppConfigured()
+    configured: isWhatsAppConfigured(),
+    metaWebhook:
+      Boolean(String(process.env.META_WA_VERIFY_TOKEN || "").trim())
   });
+});
+
+// ✅ Meta WhatsApp Cloud API webhook (verify + receive)
+const getMetaWaVerifyToken = () =>
+  String(process.env.META_WA_VERIFY_TOKEN || "").trim();
+
+const getMetaWaAppSecret = () =>
+  String(process.env.META_WA_APP_SECRET || "").trim();
+
+const verifyMetaWhatsAppSignature = (req) => {
+  const secret = getMetaWaAppSecret();
+  if (!secret) return true; // optional until App Secret is set
+  const signature = String(req.headers["x-hub-signature-256"] || "");
+  if (!signature.startsWith("sha256=")) return false;
+  const rawBody =
+    typeof req.rawBody === "string"
+      ? req.rawBody
+      : JSON.stringify(req.body || {});
+  const expected =
+    "sha256=" +
+    crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(signature),
+      Buffer.from(expected)
+    );
+  } catch {
+    return false;
+  }
+};
+
+app.get("/webhooks/whatsapp", (req, res) => {
+  const mode = String(req.query["hub.mode"] || "");
+  const token = String(req.query["hub.verify_token"] || "");
+  const challenge = String(req.query["hub.challenge"] || "");
+  const verifyToken = getMetaWaVerifyToken();
+
+  if (!verifyToken) {
+    console.error("META WEBHOOK: META_WA_VERIFY_TOKEN is not set");
+    return res.status(500).send("Webhook verify token not configured");
+  }
+
+  if (mode === "subscribe" && token === verifyToken) {
+    console.log("META WEBHOOK: verified");
+    return res.status(200).send(challenge);
+  }
+
+  console.warn("META WEBHOOK: verification failed");
+  return res.sendStatus(403);
+});
+
+app.post("/webhooks/whatsapp", (req, res) => {
+  // Always ack quickly so Meta does not retry aggressively.
+  res.sendStatus(200);
+
+  try {
+    if (!verifyMetaWhatsAppSignature(req)) {
+      console.warn("META WEBHOOK: invalid signature");
+      return;
+    }
+
+    const body = req.body || {};
+    if (body.object !== "whatsapp_business_account") return;
+
+    for (const entry of body.entry || []) {
+      for (const change of entry.changes || []) {
+        const value = change.value || {};
+        const phoneNumberId = value.metadata?.phone_number_id;
+        for (const message of value.messages || []) {
+          const from = message.from;
+          const type = message.type;
+          const text =
+            message.text?.body ||
+            message.button?.text ||
+            message.interactive?.button_reply?.title ||
+            "";
+          console.log(
+            "META WA INBOUND:",
+            JSON.stringify({
+              phoneNumberId,
+              from,
+              type,
+              text: String(text).slice(0, 200),
+              id: message.id
+            })
+          );
+        }
+        for (const status of value.statuses || []) {
+          console.log(
+            "META WA STATUS:",
+            JSON.stringify({
+              id: status.id,
+              status: status.status,
+              recipient: status.recipient_id
+            })
+          );
+        }
+      }
+    }
+  } catch (error) {
+    console.error("META WEBHOOK PROCESS ERROR:", error.message);
+  }
 });
 
 // ✅ WhatsApp OTP endpoints
@@ -1430,6 +1652,10 @@ app.post("/auth/register", async (req, res) => {
         email: newUser.email
       }
     });
+
+    void sendWelcomeEmail(email, password).catch(error => {
+      console.error("WELCOME EMAIL ERROR:", error);
+    });
   } catch (error) {
     console.error("REGISTER ERROR:", error);
     res.status(500).json({ error: "Registration failed." });
@@ -1469,6 +1695,118 @@ app.post("/auth/login", async (req, res) => {
       email: user.email
     }
   });
+});
+
+app.post("/auth/forgot-password", async (req, res) => {
+  try {
+    const email = normalizeEmail(req.body.email);
+    if (!email || !email.includes("@")) {
+      return res.status(400).json({ error: "Enter a valid email address." });
+    }
+
+    const genericMessage =
+      "If that email is registered, you will receive a reset code shortly.";
+
+    const user = users.find(item => item.email === email);
+    if (!user || !getUserPasswordStored(user)) {
+      return res.json({ ok: true, message: genericMessage });
+    }
+
+    const existing = otpByEmail.get(email);
+    if (
+      existing &&
+      Date.now() - existing.lastSentAt < OTP_RESEND_COOLDOWN_MS
+    ) {
+      return res.status(429).json({
+        error: "Please wait a moment before requesting another code."
+      });
+    }
+
+    const code = generateOtp();
+    otpByEmail.set(email, {
+      code,
+      expiresAt: Date.now() + OTP_TTL_MS,
+      attemptsLeft: OTP_MAX_ATTEMPTS,
+      lastSentAt: Date.now()
+    });
+
+    const result = await sendPasswordResetEmail(email, code);
+
+    res.json({
+      ok: true,
+      dev: result.dev,
+      message: result.dev
+        ? "Reset code is in your backend terminal logs (look for [DEV FALLBACK])."
+        : genericMessage
+    });
+  } catch (error) {
+    console.error("FORGOT PASSWORD ERROR:", error);
+    res.status(500).json({ error: "Could not send reset code right now." });
+  }
+});
+
+app.post("/auth/reset-password", async (req, res) => {
+  try {
+    const email = normalizeEmail(req.body.email);
+    const code = String(req.body.code || "").trim();
+    const newPassword = String(req.body.newPassword || "");
+
+    if (!email || !code || !newPassword) {
+      return res.status(400).json({
+        error: "Email, code, and new password are required."
+      });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        error: "Password must be at least 6 characters."
+      });
+    }
+
+    const entry = otpByEmail.get(email);
+    if (!entry || Date.now() > entry.expiresAt) {
+      return res.status(400).json({
+        error: "Reset code expired. Request a new one."
+      });
+    }
+    if (entry.attemptsLeft <= 0) {
+      return res.status(429).json({
+        error: "Too many attempts. Request a new code."
+      });
+    }
+    if (entry.code !== code) {
+      entry.attemptsLeft -= 1;
+      return res.status(401).json({ error: "Invalid reset code." });
+    }
+
+    const user = users.find(item => item.email === email);
+    if (!user) {
+      return res.status(400).json({ error: "Invalid reset request." });
+    }
+
+    user.passwordHash = hashPassword(newPassword);
+    delete user.password;
+    await saveUsers();
+    otpByEmail.delete(email);
+
+    const token = generateToken();
+    sessions.set(token, {
+      id: user.id,
+      email: user.email,
+      phone: user.phone || null
+    });
+
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email
+      },
+      message: "Password updated. You are now logged in."
+    });
+  } catch (error) {
+    console.error("RESET PASSWORD ERROR:", error);
+    res.status(500).json({ error: "Could not reset password." });
+  }
 });
 
 // ✅ Current user endpoint
@@ -1514,6 +1852,9 @@ app.patch("/auth/profile", authMiddleware, async (req, res) => {
     }
     if (req.body.gender !== undefined) {
       user.gender = normalizeGender(req.body.gender);
+    }
+    if (req.body.age !== undefined) {
+      user.age = normalizeAge(req.body.age);
     }
     if (req.body.language !== undefined) {
       user.language = normalizeLanguage(req.body.language);
@@ -2498,6 +2839,7 @@ app.post("/chat", async (req, res) => {
     let companionName = "Saathi";
     let userGender =
       normalizeGender(dbUser?.gender) || normalizeGender(req.body.gender);
+    let userAge = normalizeAge(dbUser?.age) || normalizeAge(req.body.age);
     let userLanguage =
       normalizeLanguage(dbUser?.language) || normalizeLanguage(req.body.language);
 
@@ -2526,12 +2868,14 @@ app.post("/chat", async (req, res) => {
         normalizeAiCompanionName(req.body.aiName) ||
         "Saathi";
       userGender = normalizeGender(guestProfile.gender) || userGender;
+      userAge = normalizeAge(guestProfile.age) || userAge;
       userLanguage = normalizeLanguage(guestProfile.language) || userLanguage;
       if (
         req.body.guestName ||
         req.body.guestCity ||
         req.body.aiName !== undefined ||
         req.body.gender !== undefined ||
+        req.body.age !== undefined ||
         req.body.language !== undefined
       ) {
         await saveGuestProfiles();
@@ -2584,6 +2928,7 @@ app.post("/chat", async (req, res) => {
       userGender,
       userLanguage
     );
+    const ageHint = buildAgeHint(userAge, userLanguage);
     const languageHint = buildLanguageHint(userLanguage);
 
     const recentKbTopics = chatSession?.recentKbTopics || guestThread?.recentKbTopics || [];
@@ -2629,6 +2974,7 @@ app.post("/chat", async (req, res) => {
       helpHint,
       nameHint,
       genderHint,
+      ageHint,
       languageHint,
       language: userLanguage,
       knowledgeHint
@@ -2803,7 +3149,7 @@ const startServer = async () => {
       next();
     });
     app.use(express.static(FRONTEND_DIST));
-    app.get(/^(?!\/(auth|chat|support|admin|whatsapp|push|health|config|r|peer|presence|guide|pro)(\/|$)).*/, (req, res) => {
+    app.get(/^(?!\/(auth|chat|support|admin|whatsapp|webhooks|push|health|config|r|peer|presence|guide|pro)(\/|$)).*/, (req, res) => {
       res.sendFile(path.join(FRONTEND_DIST, "index.html"));
     });
     console.log("Serving Saathi UI from", FRONTEND_DIST);
